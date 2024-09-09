@@ -1,0 +1,17 @@
+.Nav{
+    width: 100%;
+    background-color: #909090;
+    height: 80px;
+    position: absolute;
+    top: 0;
+    font-family: quicksand, poppins, verdana;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+.Nav h1{
+    font-size: 2rem;
+}
+

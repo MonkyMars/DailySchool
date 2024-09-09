@@ -1,0 +1,86 @@
+.Month{
+    width: 100vw;
+    max-height: 80vh;
+    position: relative;
+    background-color: #fff;
+    top: 65px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    border: 2px solid;
+    overflow-y: auto;
+}
+
+.Day, .WeekDay{
+    min-width: 200px;
+    min-height: 200px;
+    border: 1px solid;
+    padding: 20px;
+    font-family: poppins, verdana;
+    flex: 1;
+    position: relative;
+    &:hover{
+        border: 1px solid var(--secondary-background);
+    }
+}
+.WeekDay{
+    min-height: 76vh;
+    position: relative;
+}
+.Day label{
+    font-size: 1.4rem;
+}
+
+.MonthSlider{
+    position: relative;
+    top: 65px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: var(--secondary-background);
+    padding: 10px;
+    font-family: quicksand, verdana;
+    font-size: 1.6rem;
+    align-items: center;
+}
+
+.MonthSlider button, .MonthSlider select{
+    border: none;
+    padding: 12px 12px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.MonthSlider .setCurrent{
+    position: absolute;
+    color: rgb(32, 32, 248);
+    left: 57%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+.MonthSlider select{
+    position: absolute;
+    left: 8%;
+}
+.header{
+    text-align: center;
+    width: 100%;
+    top: 40px;
+    position: relative;
+    color: var(--text-color);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.header h1{
+    border-bottom: 2px solid var(--text-color);
+    display: inline;
+    font-size: 2.8rem;
+}
+
+.Day .Week{
+    flex-wrap: nowrap;
+}

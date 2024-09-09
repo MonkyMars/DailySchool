@@ -1,0 +1,16 @@
+.header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: quicksand, poppins;
+  color: var(--text-color);
+}
+
+.header h1{
+  font-size: 5rem;
+  text-decoration: underline;
+}
+
+.header p{
+  font-size: 2rem;
+}
