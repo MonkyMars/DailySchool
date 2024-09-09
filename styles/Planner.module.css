@@ -3,7 +3,7 @@
     max-height: 80vh;
     position: relative;
     background-color: #fff;
-    top: 65px;
+    top: 0px;
     display: flex;
     flex-wrap: wrap;
     gap: 0;
@@ -33,7 +33,7 @@
 
 .MonthSlider{
     position: relative;
-    top: 65px;
+    top: 0px;
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -70,7 +70,7 @@
     text-align: center;
     width: 100%;
     top: 40px;
-    position: relative;
+    position: absolute;
     color: var(--text-color);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

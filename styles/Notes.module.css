@@ -1,0 +1,89 @@
+.Topbar{
+    position: relative;
+    top: 0px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: var(--secondary-background);
+    padding: 10px;
+    font-family: quicksand, verdana;
+    font-size: 1.6rem;
+    align-items: center;
+}
+
+.Topbar input[type='text'] {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 5px;
+    font-family: Quicksand, verdana, poppins;
+    font-size: 1rem;
+    margin-right: 10px;
+    &:focus{
+        outline: 2px solid var(--background)
+    }
+}
+
+.Topbar button {
+    padding: 6px 8px;
+    border: none;
+    border-radius: 5px;
+    font-family: Quicksand, verdana, poppins;
+    font-size: 1rem;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: 32px;
+    &:focus{
+        background-color: var(--background);
+    }
+}
+
+.Note {
+    background-color: #fff;
+    width: 400px;
+    height: 400px;
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-family: quicksand, poppins, verdana;
+    position: relative;
+    overflow: hidden; 
+}
+
+.Note header h2 {
+    text-align: left;
+    border-bottom: 2px solid;
+    font-family: quicksand, poppins, verdana;
+    font-size: 2rem;
+    position: relative;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}
+
+.Note main p {
+    font-size: 1.3rem;
+    max-width: 90%;
+    word-wrap: break-word;
+    overflow: hidden; 
+}
+
+.Note footer label {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis;
+}
+
+.noteContainer{
+    height: 80vh;
+    width: 100vw;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}

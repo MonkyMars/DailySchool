@@ -1,0 +1,66 @@
+.Slider{
+    position: relative;
+    top:0px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    background-color: var(--secondary-background);
+    padding: 10px;
+    font-family: quicksand, verdana;
+    font-size: 1.6rem;
+    align-items: center;
+}
+
+.Slider button{
+    border: none;
+    padding: 12px 12px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Slider .setCurrent{
+    position: absolute;
+    color: rgb(32, 32, 248);
+    left: 57%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    &:hover{
+        text-decoration: underline;
+    }
+}
+.homeworkItem{
+    border: 1px solid;
+    padding: 10px;
+}
+
+.homeworkItem label{
+    font-family: quicksand, poppins;
+    font-size: 2rem;
+}
+.homeworkItem span{
+    font-family: poppins, verdana;
+}
+.homework{
+    position: relative;
+    background-color: #fff;
+    max-height: 80%;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.homeworkItem input[type='checkbox'] {
+    position: absolute;
+    right: 100px;
+    width: 20px;
+    height: 20px;
+    &:checked{
+        -webkit-appearance: none;
+        -moz-appearance: none; 
+        appearance: none;
+        background-color: var(--background);
+        background-image: url('/checkmark.png');
+        background-size: cover;
+    }
+}
