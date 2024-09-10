@@ -1,0 +1,64 @@
+.LoginForm {
+    background-color: #909090;
+    width: 90%; /* Fluid width for responsive design */
+    max-width: 360px;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.LoginForm div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.LoginForm h2 {
+    font-family: 'Poppins', 'Quicksand', Verdana, sans-serif;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.LoginForm div label {
+    text-align: left;
+    font-family: 'Quicksand', 'Poppins';
+    align-items: flex-start;
+    display: flex;
+    width: 95%;
+}
+
+.LoginForm input {
+    width: 90%; 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 15px; 
+    &:focus{
+        outline: 2px solid var(--background);
+    }
+}
+
+.LoginForm a{
+    font-family: 'Quicksand', 'Poppins', Verdana;
+}
+
+.LoginForm button[type='submit'] {
+    background-color: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    font-family: 'Quicksand', 'Poppins', verdana;
+    border: none;
+    outline: none;
+    width: 55%;
+}
