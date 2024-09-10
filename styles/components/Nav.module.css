@@ -15,3 +15,40 @@
     font-size: 2rem;
 }
 
+
+.ProfileCard{
+    width: max-content;
+    padding: 10px 20px;
+    background-color: #fff;
+    position: absolute;
+    top: 25px;
+    right: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.ProfileCard label{
+    font-family: 'Poppins', 'Quicksand', verdana;
+    font-size: 1.3em;
+    margin-left: 15px;
+}
+
+
+.Logout, .Settings{
+    width: max-content;
+    padding: 10px 20px;
+    background-color: #fff;
+    position: absolute;
+    top: 25px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.Settings{
+    right: 140px;
+}
