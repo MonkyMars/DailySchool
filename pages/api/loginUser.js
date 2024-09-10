@@ -6,12 +6,10 @@ export default async function loginUser(req, res) {
         try {
             const { email, password } = req.body;
 
-            // Fetch user from the database
             const result = await sql`
                 SELECT * FROM users WHERE email = ${email}
             `;
             
-            // Check if the user exists
             const user = result.rows[0];
             
             if (!user) {
@@ -21,7 +19,7 @@ export default async function loginUser(req, res) {
             const match = await bcrypt.compare(password, user.password);
 
             if (match) {
-                res.status(200).json({ message: 'Login successful' });
+                res.status(200).json({ message: 'Login successful', user });
             } else {
                 res.status(401).json({ error: 'Invalid email or password' });
             }

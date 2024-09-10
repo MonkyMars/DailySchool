@@ -13,17 +13,17 @@ export default async function handler(req, res) {
 
             sql.connect({ connectionString });
 
-            const { email, password, school } = req.body;
+            const { email, password, school, grade, role } = req.body;
 
-            if (!email || !password || !school) {
+            if (!email || !password || !school || !grade || !role) {
                 return res.status(400).json({ error: 'Missing required fields' });
             }
 
             const hashedPassword = await bcrypt.hash(password, saltRounds);
 
             const result = await sql`
-                INSERT INTO users (email, password, school)
-                VALUES (${email}, ${hashedPassword}, ${school})
+                INSERT INTO users (email, password, school, grade)
+                VALUES (${email}, ${hashedPassword}, ${school}, ${grade}, ${role})
                 RETURNING *;
             `;
 
