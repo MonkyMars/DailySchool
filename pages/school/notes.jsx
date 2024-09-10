@@ -26,7 +26,10 @@ const Notes = () => {
           <div className={styles.noteContainer}>
             {existingNotes.map((note, index) => {
               return(
+                <>
                 <Note key={note.id || index} title={note.title}/>
+                <EditNote setNote={setNote} title={note.title} description={note.description} date={note.date} time={note.time}/>
+                </>
               )
             })}
           </div>
@@ -50,5 +53,23 @@ const Note = ({title, description, time, date}) => {
         <label>{date}, {time}</label>
       </footer>
     </div>
+  )
+}
+
+const EditNote = ({title, description, time, date, note, setNote}) => {
+  return(
+    <>
+    <div className={styles.Note}>
+      <header>
+        <input value={title} onChange={(e) => setNote({title: e.target.value})}/>
+      </header>
+      <main>
+        <textarea value={description} onChange={(e) => setNote({description: e.target.value})}/>
+      </main>
+      <footer>
+        <label>{date}, {time}</label>
+      </footer>
+    </div>
+    </>
   )
 }
