@@ -47,6 +47,9 @@
     &:focus{
         outline: 2px solid var(--background);
     }
+    &:invalid{
+        outline: 2px solid var(--error-red);
+    }
 }
 
 .LoginForm a{
@@ -61,4 +64,9 @@
     border: none;
     outline: none;
     width: 55%;
+}
+
+.error{
+    color: var(--error-red);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
