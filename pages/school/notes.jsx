@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Nav from '/components/Nav';
 import styles from '/styles/Notes.module.css';
 import Image from 'next/image';
@@ -7,69 +7,138 @@ const Notes = () => {
   const [note, setNote] = useState({
     title: '',
     description: '',
-    date: '',
-    time: '',
-  })
-  const [existingNotes, setExistingNotes] = useState([{id: 0, title: 'Note test'}])
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString().slice(0, 5),
+  });
+  const [existingNotes, setExistingNotes] = useState([]);
+  const [editing, setEditing] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchNotes();
+  }, [])
+
+  const handleSubmitEditNote = async() => {
+    await createNote();
+    setEditing(false);
+    setExistingNotes([...existingNotes, { title: note.title, description: note.description, date: note.date, time: note.time }]);
+    setNote({ title: '', description: '', date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString().slice(0, 5) });
+  };
+
   const insertNote = () => {
+    setEditing(true);
+  };
 
+  const createNote = async() => {
+    try {
+      const user = localStorage.getItem('user');
+      const response = await fetch("/api/addNote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          'user': user,
+        },
+        body: JSON.stringify(note),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("notes", JSON.stringify(data));
+      } else {
+        setError("Failed to add note. Please try again.");
+      };
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred during creating note.");
+    };
+  };
+
+  const fetchNotes = async() => {
+    const user = localStorage.getItem('user')
+    const response = await fetch('/api/fetchNotes', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'user': user,
+      },
+    })
+    if (!response.ok) {
+      throw new Error("HTTP error!");
+    }
+    const data = await response.json();
+    const arrayNotes = data.message.rows;
+    arrayNotes.map((arrayNote) => {
+      setExistingNotes([{ title: arrayNote.title, description: arrayNote.description, date: arrayNote.date, time: arrayNote.time }]);
+    })
+    console.log(existingNotes)
+    
   }
+  return (
+    <>
+      <Nav />
+      <main className={styles.Main}>
+        <div className={styles.Topbar}>
+          <input
+            type="text"
+            placeholder="Enter note title"
+            value={note.title}
+            onChange={(e) => setNote(prevNote => ({ ...prevNote, title: e.target.value }))}
+          />
+          {note.title && (
+            <button onClick={insertNote}>
+              <Image src="/send.png" width={30} height={30} alt="Send" />
+            </button>
+          )}
+        </div>
+        <div className={styles.noteContainer}>
+          {editing && <EditNote note={note} setNote={setNote} handleSubmitEditNote={handleSubmitEditNote} />}
+          {existingNotes.map((existingNote, index) => (
+            <Note
+              key={index}
+              title={existingNote.title}
+              description={existingNote.description}
+              date={existingNote.date}
+              time={existingNote.time}
+            />
+          ))}
+        </div>
+      </main>
+    </>
+  );
+};
 
-    return(
-      <>
-        <Nav/>
-        <main className={styles.Main}>
-          <div className={styles.Topbar}>
-            <input type='text' placeholder='Enter note title' value={note.title} onChange={(e) => setNote({title: e.target.value})}/>
-            {note.title && <button onClick={insertNote}><Image src={'/send.png'} width={30} height={30}/></button>}
-          </div>
-          <div className={styles.noteContainer}>
-            {existingNotes.map((note, index) => {
-              return(
-                <>
-                <Note key={note.id || index} title={note.title}/>
-                <EditNote setNote={setNote} title={note.title} description={note.description} date={note.date} time={note.time}/>
-                </>
-              )
-            })}
-          </div>
-        </main>
-      </>
-    )
-}
+const Note = ({ title, description, time, date }) => (
+  <div className={styles.Note}>
+    <header>
+      <h2>{title}</h2>
+    </header>
+    <main>
+      <p>{description}</p>
+    </main>
+    <footer>
+      <label>{date.slice(0, 10)}, {time}</label>
+    </footer>
+  </div>
+);
+
+const EditNote = ({ note, setNote, handleSubmitEditNote }) => (
+  <div className={styles.Note}>
+    <header>
+      <input
+        value={note.title}
+        onChange={(e) => setNote(prevNote => ({ ...prevNote, title: e.target.value }))}
+      />
+    </header>
+    <main>
+      <textarea
+        value={note.description}
+        onChange={(e) => setNote(prevNote => ({ ...prevNote, description: e.target.value }))}
+      />
+    </main>
+    <footer>
+      <label>{note.date} - {note.time}</label>
+      <button onClick={handleSubmitEditNote}>Submit</button>
+    </footer>
+  </div>
+);
 
 export default Notes;
-
-const Note = ({title, description, time, date}) => {
-  return(
-    <div className={styles.Note}>
-      <header>
-        <h2>{title}</h2>
-      </header>
-      <main>
-        <p>{description}</p>
-      </main>
-      <footer>
-        <label>{date}, {time}</label>
-      </footer>
-    </div>
-  )
-}
-
-const EditNote = ({title, description, time, date, note, setNote}) => {
-  return(
-    <>
-    <div className={styles.Note}>
-      <header>
-        <input value={title} onChange={(e) => setNote({title: e.target.value})}/>
-      </header>
-      <main>
-        <textarea value={description} onChange={(e) => setNote({description: e.target.value})}/>
-      </main>
-      <footer>
-        <label>{date}, {time}</label>
-      </footer>
-    </div>
-    </>
-  )
-}
