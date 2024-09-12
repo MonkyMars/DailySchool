@@ -5,6 +5,7 @@
   --background: rgb(13, 71, 90);
   --text-color: rgb(255, 255, 255);
   --secondary-background: #ccc;
+  --error-red: rgb(255, 20, 20);
 }
 body{
   background-color: var(--background);
