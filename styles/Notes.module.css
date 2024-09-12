@@ -70,15 +70,25 @@
     overflow: hidden; 
 }
 
-.Note footer label {
-    position: absolute;
+.Note footer {
+    flex-direction: row-reverse;
     bottom: 15px;
-    right: 15px;
+    width: 85%;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis;
 }
-
+.Note footer button{
+    border: none;
+    background-color: hsl(0, 0%, 60%);
+    padding: 5px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: 'Poppins', 'Quicksand', verdana;
+}
 .noteContainer{
     height: 80vh;
     width: 100vw;
