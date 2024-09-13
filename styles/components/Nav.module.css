@@ -1,6 +1,6 @@
 .Nav{
     width: 100%;
-    background-color: #909090;
+    background-color: var(--secondary-background);
     height: 80px;
     position: relative;
     top: 0;
@@ -12,7 +12,7 @@
 }
 
 .Nav h1{
-    font-size: 2rem;
+    font-size: 2.5em;
 }
 
 

@@ -66,21 +66,77 @@
     position: absolute;
     left: 8%;
 }
-.header{
-    text-align: center;
-    width: 100%;
-    top: 40px;
+.MonthSlider button:last-child{
     position: absolute;
-    color: var(--text-color);
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    right: 8%;
 }
-
-.header h1{
-    border-bottom: 2px solid var(--text-color);
-    display: inline;
-    font-size: 2.8rem;
-}
-
 .Day .Week{
     flex-wrap: nowrap;
+}
+
+.plannerAdd{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    max-width: 90%;
+    width: 300px;
+    justify-content: center;
+    background-color: var(--secondary-background);
+    padding: 50px;
+    color: #fff;
+    font-family: 'Quicksand', 'Poppins', verdana;
+    border-radius: 20px;
+}
+
+.plannerAdd h2{
+    text-align: center;
+    font-size: 2.6rem;
+}
+
+.plannerAdd label{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    font-size: 1.3rem;
+    margin: 5px;
+}
+
+.plannerAdd input{
+    border: none;
+    background-color: transparent;
+    border-bottom: 2px solid;
+    font-family: 'Poppins', 'Quicksand', verdana;
+    font-size: 1.3rem;
+    margin: 5px;
+    &:focus{
+        border: none;
+        border-bottom: 2px solid;
+        outline: none;
+    }
+}
+
+.plannerAdd textarea{
+    background-color: transparent;
+    border: none;
+    border-bottom: 2px solid;
+    font-family: 'Poppins', 'Quicksand', verdana;
+    font-size: 1.3rem;
+    resize: none;
+    &:focus{
+        outline: none;
+    }
+}
+
+.plannerAdd button{
+    width: 100%;
+    font-family: 'Poppins', 'Quicksand', verdana;
+    font-size: 1.3rem;
+    border: none;
+    padding: 8px 12px;
+    margin-top: 20px;
+    border-radius: 15px;
+    cursor: pointer;
 }

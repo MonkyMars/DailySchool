@@ -1,5 +1,5 @@
 .LoginForm {
-    background-color: #909090;
+    background-color: var(--secondary-background);
     width: 90%;
     max-width: 360px;
     padding: 20px;

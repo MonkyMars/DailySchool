@@ -4,7 +4,7 @@
 :root{
   --background: rgb(209, 124, 12);
   --text-color: rgb(255, 255, 255);
-  --secondary-background: #ccc;
+  --secondary-background: #5a5a5a;
   --error-red: rgb(255, 20, 20);
 }
 body{
@@ -18,3 +18,4 @@ body{
 Blue: rgb(13, 71, 90);
 Orange: rgb(190, 128, 46);
 */
+
