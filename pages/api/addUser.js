@@ -15,8 +15,7 @@ export default async function handler(req, res) {
 
       const { email, password, school, grade, role } = req.body;
       const user = await sql`SELECT * FROM users WHERE email = ${email}`;
-      
-      if(user) {
+      if(user.rowCount) {
         return res.status(409).json({ error: "User already with that email exists"})
       }
       if (!email || !password || !school || !grade || !role) {
