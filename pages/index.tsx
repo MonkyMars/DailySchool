@@ -6,9 +6,12 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   return (
     <>
-    <nav></nav>
+    <nav className={styles.Nav}>
+      <h2>SchoolTool</h2>
+      <button onClick={() => window.location.href = '/user/login'}>Log in</button>
+    </nav>
       <header className={styles.header}>
-        <h1>Daily School</h1>
+        <h1>SchoolTool</h1>
         <p>A tool for keeping track of notes, homework and much more.</p>
       </header>
     </>

@@ -4,17 +4,18 @@ import Image from 'next/image';
 export default function Overview() {
 
 const tools = [
-  {title: 'Planner', href: '/school/planner', icon: '/planner.png', desciption: 'A simple calendar based planner', color: '#72ad4299'},
-  {title: 'Homework', href: '/school/homework', icon: '/homework.png', desciption: 'Keep track of your homework', color: '#b5505b99'},
-  {title: 'Notes', href: '/school/notes', icon: '/notes.png', desciption: 'Create notes during class', color: '#5980c299'},
+  {title: 'Planner', href: '/school/planner', icon: '/planner.png', desciption: 'A simple calendar based planner', color: '#72ad42'},
+  {title: 'Homework', href: '/school/homework', icon: '/homework.png', desciption: 'Keep track of your homework', color: '#b5505b'},
+  {title: 'Notes', href: '/school/notes', icon: '/notes.png', desciption: 'Create notes during class', color: '#5980c2'},
 ]
+const user = localStorage.getItem('user');
 
 return(
   <>
   <Nav/>
     <header className={styles.header}>
       <h1>DailySchool</h1>
-      <p>Welcome</p>
+      <p>Welcome {user && user.email}</p>
     </header>
     <main className={styles.Main}>
       {tools.map((tool, index) => {

@@ -35,7 +35,7 @@ export default function Nav({page}) {
 const NavDesktop = () => {
   return (
     <nav className={styles.Nav}>
-      <h1>DailySchool</h1>
+      <h1>SchoolTool</h1>
     </nav>
   );
 }
@@ -43,7 +43,7 @@ const NavDesktop = () => {
 const NavPhone = () => {
   return (
     <nav className={styles.Nav}>
-      <h1>DailySchool</h1>
+      <h1>SchoolTool</h1>
     </nav>
   );
 }
