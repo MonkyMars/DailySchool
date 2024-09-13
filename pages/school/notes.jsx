@@ -19,10 +19,15 @@ const Notes = () => {
   }, [])
 
   const handleSubmitEditNote = async() => {
-    await createNote();
-    setEditing(false);
-    setExistingNotes([...existingNotes, { title: note.title, description: note.description, date: note.date, time: note.time }]);
-    setNote({ title: '', description: '', date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString().slice(0, 5) });
+    if(note.title && note.description) {
+      await createNote();
+      setEditing(false);
+      setExistingNotes([...existingNotes, { title: note.title, description: note.description, date: note.date, time: note.time }]);
+      setNote({ title: '', description: '', date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString().slice(0, 5) });
+    } else {
+      const button = document.getElementsByClassName('Submit-button')[0];
+      button.style.backgroundColor = 'rgb(255, 20, 20)';
+    }
   };
 
   const insertNote = () => {
@@ -30,26 +35,28 @@ const Notes = () => {
   };
 
   const createNote = async() => {
-    try {
-      const user = localStorage.getItem('user');
-      const response = await fetch("/api/addNote", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          'user': user,
-        },
-        body: JSON.stringify(note),
-      });
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("notes", JSON.stringify(data));
-      } else {
-        setError("Failed to add note. Please try again.");
+    if(note.title && note.description) {
+      try {
+        const user = localStorage.getItem('user');
+        const response = await fetch("/api/addNote", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            'user': user,
+          },
+          body: JSON.stringify(note),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem("notes", JSON.stringify(data));
+        } else {
+          setError("Failed to add note. Please try again.");
+        };
+      } catch (err) {
+        console.error(err);
+        setError("An error occurred during creating note.");
       };
-    } catch (err) {
-      console.error(err);
-      setError("An error occurred during creating note.");
-    };
+    }
   };
 
   const fetchNotes = async() => {
@@ -121,22 +128,26 @@ const Note = ({ title, description, time, date }) => (
 );
 
 const EditNote = ({ note, setNote, handleSubmitEditNote }) => (
-  <div className={styles.Note}>
+  <div className={styles.EditNote}>
     <header>
       <input
         value={note.title}
         onChange={(e) => setNote(prevNote => ({ ...prevNote, title: e.target.value }))}
+        placeholder='Enter note title'
+        maxLength={255}
       />
     </header>
     <main>
       <textarea
         value={note.description}
         onChange={(e) => setNote(prevNote => ({ ...prevNote, description: e.target.value }))}
+        placeholder='Enter note description'
+        maxLength={1000}
       />
     </main>
     <footer>
       <label>{note.date} - {note.time}</label>
-      <button onClick={handleSubmitEditNote}>Submit</button>
+      <button onClick={handleSubmitEditNote} className='Submit-button'>Submit</button>
     </footer>
   </div>
 );
