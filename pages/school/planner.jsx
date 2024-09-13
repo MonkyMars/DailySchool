@@ -1,20 +1,16 @@
 import styles from '/styles/Planner.module.css';
 import React, { useState } from 'react';
 import Nav from '/components/Nav';
-import { useMediaQuery } from 'react-responsive';
 import { getWeek } from '/components/components.jsx';
 
 export default function Planner() {
-  const isPhone = useMediaQuery({
-    query: '(max-width: 768px)',
-  });
   const [currentMonth] = useState(new Date().getMonth());
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [currentWeek] = useState(getWeek(new Date()));
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [currentDay] = useState(new Date().getDay());
   const [selectedDay] = useState(currentDay);
-  const [sortType, setSortType] = useState(isPhone ? 'Day' : 'Month');
+  const [sortType, setSortType] = useState('Month');
   const [plannerAddVisible, setPlannerAddVisible] = useState(false);
   const [planner, setPlanner] = useState({
     title: '',
@@ -24,8 +20,8 @@ export default function Planner() {
   });
   const [existingPlanners, setExistingPlanners] = useState([
     {
-      title: 'Example Plan',
-      description: 'This is an example plan',
+      title: '',
+      description: '',
       date: new Date().toISOString().slice(0, 10),
       time: new Date().toLocaleTimeString().slice(0, 5),
     },
@@ -86,6 +82,8 @@ export default function Planner() {
         },
         body: JSON.stringify(planner),
       });
+      const data = await response.json();
+      console.log(data)
       if(!response.ok) {
         window.alert('Failed to add planner')
       }
@@ -102,7 +100,7 @@ export default function Planner() {
           <select onChange={(e) => setSortType(e.target.value)} value={sortType}>
             <option value="Month">Month</option>
             <option value="Week">Week</option>
-            {isPhone && <option value="Day">Day</option>}
+            <option value="Day">Day</option>
           </select>
           {sortType === 'Month' && (
             <>
