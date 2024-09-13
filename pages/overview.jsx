@@ -8,14 +8,13 @@ const tools = [
   {title: 'Homework', href: '/school/homework', icon: '/homework.png', desciption: 'Keep track of your homework', color: '#b5505b'},
   {title: 'Notes', href: '/school/notes', icon: '/notes.png', desciption: 'Create notes during class', color: '#5980c2'},
 ]
-const user = localStorage.getItem('user');
 
 return(
   <>
   <Nav/>
     <header className={styles.header}>
       <h1>DailySchool</h1>
-      <p>Welcome {user && user.email}</p>
+      <p>Welcome</p>
     </header>
     <main className={styles.Main}>
       {tools.map((tool, index) => {
