@@ -9,8 +9,10 @@ export default async function AddNote(req, res) {
             if (!user || !user.id) {
                 return res.status(400).json({ error: "User information is missing" });
             }
-            const [day, month, year] = date.split('/');
-            const formattedDate = `${year}-${month}-${day}`
+
+            // Use `toISOString` to ensure the date is in `YYYY-MM-DD` format
+            const formattedDate = new Date(date).toISOString().split('T')[0];
+
             const result = await sql`
                 INSERT INTO notes (title, description, date, time, "user")
                 VALUES (${title}, ${description}, ${formattedDate}, ${time}, ${user.id});
