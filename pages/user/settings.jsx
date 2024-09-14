@@ -52,9 +52,9 @@ const Settings = () => {
                 <title>DailySchool | Settings</title>
             </Head>
             <main className={styles.Main}>
-                <h1>Settings</h1>
                 <section className={styles.Section}>
                     <form onSubmit={handleSubmit}>
+                        <h2>Update information</h2>
                         <label htmlFor="email">Email</label>
                         <input
                             id="email"
