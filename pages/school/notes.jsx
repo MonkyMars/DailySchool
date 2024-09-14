@@ -7,7 +7,7 @@ const Notes = () => {
   const [note, setNote] = useState({
     title: '',
     description: '',
-    date: new Date().toLocaleDateString(),
+    date: new Date().toISOString().split('T')[0],  // Format date as YYYY-MM-DD
     time: new Date().toLocaleTimeString().slice(0, 5),
   });
   const [existingNotes, setExistingNotes] = useState([]);
