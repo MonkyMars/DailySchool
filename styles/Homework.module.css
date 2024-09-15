@@ -18,8 +18,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
-
+.Slider button:last-child{
+    position: absolute;
+    right: 8%;
+}
 .Slider .setCurrent{
     position: absolute;
     color: rgb(32, 32, 248);
@@ -63,4 +67,17 @@
         background-image: url('/checkmark.png');
         background-size: cover;
     }
+}
+
+
+.Homework{
+    border-bottom: 2px solid;
+    padding: 6px;
+    display: inline-block;
+    width: 87%;
+    font-size: 1.2rem;
+    background-color: var(--secondary-background);
+    margin: 2px;
+    color: #fff;
+    border-radius: 10px;
 }
