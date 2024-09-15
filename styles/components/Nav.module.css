@@ -53,3 +53,9 @@
 .Settings{
     right: 140px;
 }
+
+@media screen and (max-width: 1080px) {
+    .ProfileCard label{
+        display: none;
+    }
+}
