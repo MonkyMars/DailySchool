@@ -1,0 +1,82 @@
+.Section {
+    display: grid;
+    width: 100%;
+    height: 100%;
+}
+
+.Section form {
+    background-color: var(--secondary-background);
+    display: flex;
+    flex-direction: column;
+    width: 480px;
+    max-width: 90%;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    place-self: center;
+    border-radius: 20px;
+    margin: 10px auto; /* Adjust for centering */
+    padding: 0 5px 0 5px;
+}
+
+.Section form h2 {
+    font-family: 'Quicksand', 'Poppins', Verdana;
+    font-size: 2rem;
+    color: #fff; /* Ensure heading color contrast */
+}
+
+.Section form button {
+    width: 50%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 20px;
+    margin: 20px;
+    color: #000;
+    cursor: pointer; /* Make it more user-friendly */
+}
+
+.Section form input {
+    background-color: #666;
+    padding: 4px 8px;
+    border: none;
+    font-family: 'Poppins', 'Quicksand', 'Verdana';
+    color: #ccc;
+    font-size: 0.9rem;
+    margin: 5px;
+    width: 90%; /* Ensure it adapts to form size */
+    transition: all 0.3s ease; /* Optional: smooth transition */
+    border-radius: 5px;
+}
+
+.Section form input:focus {
+    outline: none;
+    background-color: #555; /* Lighter background on focus */
+    outline: 1px solid #fff;
+}
+
+.Section form input::placeholder {
+    color: #ccc;
+}
+
+/* Optional: Add vendor prefixes for older browsers */
+.Section form input::-webkit-input-placeholder {
+    color: #ccc;
+}
+.Section form input::-moz-placeholder {
+    color: #ccc;
+}
+.Section form input:-ms-input-placeholder {
+    color: #ccc;
+}
+.Section form input:-moz-placeholder {
+    color: #ccc;
+}
+
+.Section form label {
+    display: inline-block;
+    color: #fff;
+    font-family: 'Poppins', 'Quicksand', 'Verdana';
+    justify-self: flex-start;
+    display: flex;
+    margin-bottom: 10px; /* Add some spacing */
+}

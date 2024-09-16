@@ -140,3 +140,42 @@
     border-radius: 15px;
     cursor: pointer;
 }
+
+
+.SpanPlan{
+    cursor: pointer;
+    display: inline-flex;
+    width: 100%;
+    max-width: 100%;
+    margin: 5px;
+    padding: 4px 8px;
+    border-radius: 15px;
+    font-family: ' Poppins', 'Quicksand', verdana;
+    font-size: 1.1rem;
+    background-color: var(--secondary-background);
+    color: #fff;
+    left: -10px;
+    position: relative;
+    justify-content: flex-start;
+}
+
+.plannerView{
+    position: fixed;
+    background-color: var(--background);
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    z-index: 99;
+    width: 300px;
+    max-width: 90%;
+}
+
+.plannerView h2, .plannerView p{
+    max-width: 90%;
+}
