@@ -1,5 +1,5 @@
-.Month{
-    width: 100vw;
+.Month {
+    min-width: 100%;
     max-height: 80vh;
     position: relative;
     background-color: #fff;
@@ -9,72 +9,80 @@
     gap: 0;
     border: 2px solid;
     overflow-y: auto;
-}
-
-.Day, .WeekDay{
+  }
+  
+  .Day,
+  .WeekDay {
     min-width: 200px;
     min-height: 200px;
     border: 1px solid;
     padding: 20px;
-    font-family: poppins, verdana;
+    font-family: Poppins, Verdana, sans-serif;
     flex: 1;
     position: relative;
-    &:hover{
-        border: 1px solid var(--secondary-background);
+    &:hover {
+      border: 1px solid var(--secondary-background);
     }
-}
-.WeekDay{
+  }
+  
+  .WeekDay {
     min-height: 76vh;
     position: relative;
-}
-.Day label{
+  }
+  
+  .Day label {
     font-size: 1.4rem;
-}
-
-.MonthSlider{
+  }
+  
+  .MonthSlider {
     position: relative;
     top: 0px;
-    width: 100%;
+    min-width: 105vw;
     display: flex;
     justify-content: space-evenly;
     background-color: var(--secondary-background);
     padding: 10px;
-    font-family: quicksand, verdana;
+    font-family: Quicksand, Verdana, sans-serif;
     font-size: 1.6rem;
     align-items: center;
-}
-
-.MonthSlider button, .MonthSlider select{
+  }
+  
+  .MonthSlider button,
+  .MonthSlider select {
     border: none;
     padding: 12px 12px;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.MonthSlider .setCurrent{
+  }
+  
+  .MonthSlider .setCurrent {
     position: absolute;
     color: rgb(32, 32, 248);
     left: 57%;
     font-size: 1.2rem;
     cursor: pointer;
-    &:hover{
-        text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
     }
-}
-.MonthSlider select{
+  }
+  
+  .MonthSlider select {
     position: absolute;
     left: 8%;
-}
-.MonthSlider button:last-child{
+  }
+  
+  .MonthSlider button:last-child {
     position: absolute;
     right: 8%;
-}
-.Day .Week{
+  }
+  
+  .Day .Week {
     flex-wrap: nowrap;
-}
-
-.plannerAdd{
+  }
+  
+  .plannerAdd {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -87,62 +95,61 @@
     background-color: var(--secondary-background);
     padding: 50px;
     color: #fff;
-    font-family: 'Quicksand', 'Poppins', verdana;
+    font-family: "Quicksand", "Poppins", Verdana, sans-serif;
     border-radius: 20px;
-}
-
-.plannerAdd h2{
+  }
+  
+  .plannerAdd h2 {
     text-align: center;
     font-size: 2.6rem;
-}
-
-.plannerAdd label{
+  }
+  
+  .plannerAdd label {
     width: 100%;
     position: relative;
     display: inline-block;
     font-size: 1.3rem;
     margin: 5px;
-}
-
-.plannerAdd input{
+  }
+  
+  .plannerAdd input {
     border: none;
     background-color: transparent;
     border-bottom: 2px solid;
-    font-family: 'Poppins', 'Quicksand', verdana;
+    font-family: "Poppins", "Quicksand", Verdana, sans-serif;
     font-size: 1.3rem;
     margin: 5px;
-    &:focus{
-        border: none;
-        border-bottom: 2px solid;
-        outline: none;
+    &:focus {
+      border: none;
+      border-bottom: 2px solid;
+      outline: none;
     }
-}
-
-.plannerAdd textarea{
+  }
+  
+  .plannerAdd textarea {
     background-color: transparent;
     border: none;
     border-bottom: 2px solid;
-    font-family: 'Poppins', 'Quicksand', verdana;
+    font-family: "Poppins", "Quicksand", Verdana, sans-serif;
     font-size: 1.3rem;
     resize: none;
-    &:focus{
-        outline: none;
+    &:focus {
+      outline: none;
     }
-}
-
-.plannerAdd button{
+  }
+  
+  .plannerAdd button {
     width: 100%;
-    font-family: 'Poppins', 'Quicksand', verdana;
+    font-family: "Poppins", "Quicksand", Verdana, sans-serif;
     font-size: 1.3rem;
     border: none;
     padding: 8px 12px;
     margin-top: 20px;
     border-radius: 15px;
     cursor: pointer;
-}
-
-
-.SpanPlan{
+  }
+  
+  .SpanPlan {
     cursor: pointer;
     display: inline-flex;
     width: 100%;
@@ -150,16 +157,16 @@
     margin: 5px;
     padding: 4px 8px;
     border-radius: 15px;
-    font-family: ' Poppins', 'Quicksand', verdana;
+    font-family: "Poppins", "Quicksand", Verdana, sans-serif;
     font-size: 1.1rem;
     background-color: var(--secondary-background);
     color: #fff;
     left: -10px;
     position: relative;
     justify-content: flex-start;
-}
-
-.plannerView{
+  }
+  
+  .plannerView {
     position: fixed;
     background-color: var(--background);
     left: 50%;
@@ -174,8 +181,105 @@
     z-index: 99;
     width: 300px;
     max-width: 90%;
-}
-
-.plannerView h2, .plannerView p{
+  }
+  
+  .plannerView h2,
+  .plannerView p {
     max-width: 90%;
-}
+  }
+  
+  @media screen and (max-width: 1024px) {
+    .MonthSlider {
+      min-width: 100vw;
+      font-size: 1.4rem;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+  
+    .MonthSlider button,
+    .MonthSlider select {
+      padding: 10px;
+      font-size: 1.2rem;
+    }
+  
+    .plannerAdd {
+      padding: 20px;
+    }
+  
+    .plannerAdd h2 {
+      font-size: 2rem;
+    }
+  
+    .plannerAdd label,
+    .plannerAdd input,
+    .plannerAdd textarea {
+      font-size: 1.2rem;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .Month {
+      flex-direction: column;
+    }
+  
+    .Day,
+    .WeekDay {
+      min-width: 100%;
+      min-height: auto;
+    }
+  
+    .MonthSlider {
+      font-size: 1.2rem;
+    }
+  
+    .MonthSlider button,
+    .MonthSlider select {
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+  
+    .plannerAdd {
+      padding: 20px;
+    }
+  
+    .plannerAdd h2 {
+      font-size: 1.8rem;
+    }
+  
+    .plannerAdd label,
+    .plannerAdd input,
+    .plannerAdd textarea {
+      font-size: 1.1rem;
+    }
+  
+    .plannerView {
+      width: 90%;
+      max-width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .MonthSlider {
+      font-size: 1rem;
+    }
+  
+    .MonthSlider button,
+    .MonthSlider select {
+      padding: 8px;
+    }
+  
+    .plannerAdd {
+      padding: 10px;
+    }
+  
+    .plannerAdd h2 {
+      font-size: 1.6rem;
+    }
+  
+    .plannerAdd label,
+    .plannerAdd input,
+    .plannerAdd textarea {
+      font-size: 1rem;
+    }
+  }
+  

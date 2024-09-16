@@ -16,8 +16,10 @@
     border: 4px solid rgb(139, 69, 19);
     height: 450px;
     max-height: 80%;
+    box-sizing: border-box;
 }
 
+/* Adjust form items */
 .LoginForm div {
     display: flex;
     justify-content: center;
@@ -49,12 +51,12 @@
     border-radius: 5px;
     margin-top: 5px;
     margin-bottom: 15px; 
-    &:focus{
+    &:focus {
         outline: 2px solid var(--background);
     }
 }
 
-.LoginForm a{
+.LoginForm a {
     font-family: 'Quicksand', 'Poppins', Verdana;
 }
 
@@ -69,7 +71,65 @@
     cursor: pointer;
 }
 
-.error{
+.error {
     color: var(--error-red);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Responsive Styles */
+
+/* For tablets and medium screens (768px and below) */
+@media screen and (max-width: 768px) {
+    .LoginForm {
+        width: 95%;
+        max-width: 320px;
+        padding: 15px;
+        border-width: 3px; /* Thinner border on smaller screens */
+    }
+
+    .LoginForm h2 {
+        font-size: 2.5rem;
+    }
+
+    .LoginForm button[type='submit'] {
+        width: 60%;
+        padding: 10px; /* Adjust button padding */
+    }
+
+    .LoginForm input {
+        padding: 8px;
+        font-size: 1rem; /* Adjust input font size */
+    }
+
+    .LoginForm div label {
+        font-size: 1rem; /* Adjust label size */
+    }
+}
+
+/* For smaller mobile devices (480px and below) */
+@media screen and (max-width: 480px) {
+    .LoginForm {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+        border-width: 2px; /* Further reduce border thickness */
+    }
+
+    .LoginForm h2 {
+        font-size: 2rem;
+    }
+
+    .LoginForm button[type='submit'] {
+        width: 70%;
+        padding: 10px;
+    }
+
+    .LoginForm input {
+        padding: 8px;
+        font-size: 0.9rem; /* Further reduce input font size */
+    }
+
+    .LoginForm div label {
+        font-size: 0.9rem; /* Smaller label font size */
+    }
 }

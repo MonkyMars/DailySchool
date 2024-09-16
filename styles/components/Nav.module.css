@@ -1,61 +1,72 @@
-.Nav{
+.Nav {
     width: 100%;
     background-color: var(--secondary-background);
     height: 80px;
     position: relative;
     top: 0;
-    font-family: quicksand, poppins, verdana;
+    font-family: Quicksand, Poppins, Verdana;
     color: var(--text-color);
     display: flex;
     align-items: center;
-    padding: 20px;
+    padding: 0 20px;
+    justify-content: space-between;
+    box-sizing: border-box;
 }
 
-.Nav h1{
+.Nav h1 {
     font-size: 2.5em;
 }
 
-
-.ProfileCard{
-    width: max-content;
-    padding: 10px 20px;
-    background-color: #fff;
-    position: absolute;
-    top: 25px;
-    right: 250px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
+.Nav div {
+    margin-right: 5vw;
+    flex: 1;
+    box-sizing: border-box;
 }
 
-.ProfileCard label{
-    font-family: 'Poppins', 'Quicksand', verdana;
-    font-size: 1.3em;
-    margin-left: 15px;
-}
-
-
-.Logout, .Settings{
-    width: max-content;
+.button {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: var(--border-radius);
     padding: 10px 20px;
-    background-color: #fff;
-    position: absolute;
-    top: 25px;
-    right: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 300;
+    text-transform: uppercase;
     cursor: pointer;
+    transition: background-color var(--transition-time) ease, transform var(--transition-time) ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 20px;
 }
 
-.Settings{
-    right: 140px;
+.button:hover {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
 }
 
-@media screen and (max-width: 1080px) {
-    .ProfileCard label{
+.button:active {
+    background-color: var(--active-color);
+    transform: translateY(0);
+}
+
+@media screen and (max-width: 880px) {
+    .Nav h1 {
         display: none;
+    }
+
+    .Nav div {
+        margin: 0;
+        flex: 1;
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    .button {
+        margin: 2vw;
+    }
+
+    .Nav {
+        justify-content: center;
+        align-items: center;
+        padding: 0 10px;
     }
 }

@@ -45,6 +45,10 @@ const Settings = () => {
         }
     };
 
+    const logout = () => {
+        localStorage.clear();
+        window.location.href = '/user/login'
+    }
     return (
         <>
             <Nav />
@@ -97,6 +101,17 @@ const Settings = () => {
                         />
                         <button type="submit">Save Changes</button>
                     </form>
+                </section>
+                <section className={styles.Section}>
+                    {user ? (
+                        <div style={{backgroundColor: 'rgb(255, 20, 20)'}} onClick={logout}>
+                            <h2>Log out</h2>
+                        </div>
+                    ) : (
+                        <div onClick={() => window.location.href = '/user/login'}>
+                            <h2>Log in</h2>
+                        </div>
+                    )}
                 </section>
             </main>
         </>

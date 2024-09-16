@@ -2,9 +2,11 @@
     display: grid;
     width: 100%;
     height: 100%;
+    grid-template-columns: 1fr; /* Ensures full width */
+    grid-template-rows: auto;
 }
 
-.Section form {
+.Section form, .Section div {
     background-color: var(--secondary-background);
     display: flex;
     flex-direction: column;
@@ -15,14 +17,15 @@
     align-items: center;
     place-self: center;
     border-radius: 20px;
-    margin: 10px auto; /* Adjust for centering */
+    margin: 10px auto;
     padding: 0 5px 0 5px;
+    transition: all 0.3s ease;
 }
 
-.Section form h2 {
+.Section form h2, .Section div h2 {
     font-family: 'Quicksand', 'Poppins', Verdana;
     font-size: 2rem;
-    color: #fff; /* Ensure heading color contrast */
+    color: #fff;
 }
 
 .Section form button {
@@ -32,7 +35,7 @@
     border-radius: 20px;
     margin: 20px;
     color: #000;
-    cursor: pointer; /* Make it more user-friendly */
+    cursor: pointer;
 }
 
 .Section form input {
@@ -43,32 +46,18 @@
     color: #ccc;
     font-size: 0.9rem;
     margin: 5px;
-    width: 90%; /* Ensure it adapts to form size */
-    transition: all 0.3s ease; /* Optional: smooth transition */
+    width: 90%; /* Full width */
+    transition: all 0.3s ease;
     border-radius: 5px;
 }
 
 .Section form input:focus {
     outline: none;
-    background-color: #555; /* Lighter background on focus */
+    background-color: #555;
     outline: 1px solid #fff;
 }
 
 .Section form input::placeholder {
-    color: #ccc;
-}
-
-/* Optional: Add vendor prefixes for older browsers */
-.Section form input::-webkit-input-placeholder {
-    color: #ccc;
-}
-.Section form input::-moz-placeholder {
-    color: #ccc;
-}
-.Section form input:-ms-input-placeholder {
-    color: #ccc;
-}
-.Section form input:-moz-placeholder {
     color: #ccc;
 }
 
@@ -77,6 +66,73 @@
     color: #fff;
     font-family: 'Poppins', 'Quicksand', 'Verdana';
     justify-self: flex-start;
-    display: flex;
-    margin-bottom: 10px; /* Add some spacing */
+    margin-bottom: 10px;
+}
+
+.Section div {
+    cursor: pointer;
+}
+
+/* Breakpoints for Responsiveness */
+
+/* Tablet Size (1024px and below) */
+@media screen and (max-width: 1024px) {
+    .Section form, .Section div {
+        width: 80%;
+    }
+
+    .Section form h2, .Section div h2 {
+        font-size: 1.8rem;
+    }
+
+    .Section form input {
+        font-size: 0.85rem;
+        width: 95%; /* Slightly larger input fields */
+    }
+
+    .Section form button {
+        width: 60%;
+    }
+}
+
+/* Mobile Size (768px and below) */
+@media screen and (max-width: 768px) {
+    .Section form, .Section div {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .Section form h2, .Section div h2 {
+        font-size: 1.6rem;
+    }
+
+    .Section form input {
+        font-size: 0.8rem;
+        width: 95%;
+    }
+
+    .Section form button {
+        width: 70%;
+    }
+}
+
+/* Small Mobile Size (480px and below) */
+@media screen and (max-width: 480px) {
+    .Section form, .Section div {
+        width: 100%;
+        padding: 0 15px;
+    }
+
+    .Section form h2, .Section div h2 {
+        font-size: 1.4rem;
+    }
+
+    .Section form input {
+        font-size: 0.75rem;
+        width: 100%;
+    }
+
+    .Section form button {
+        width: 80%;
+    }
 }

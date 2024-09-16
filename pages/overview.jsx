@@ -1,20 +1,25 @@
+import { useEffect, useState } from 'react';
 import Nav from '/components/Nav';
 import styles from '/styles/Overview.module.css';
 import Image from 'next/image';
 export default function Overview() {
+const [user, setUser] = useState();
 
 const tools = [
   {title: 'Planner', href: '/school/planner', icon: '/planner.png', desciption: 'A simple calendar based planner', color: '#72ad42'},
   {title: 'Homework', href: '/school/homework', icon: '/homework.png', desciption: 'Keep track of your homework', color: '#b5505b'},
   {title: 'Notes', href: '/school/notes', icon: '/notes.png', desciption: 'Create notes during class', color: '#5980c2'},
 ]
-
+useEffect(() => {
+  const email = localStorage.getItem('user');
+  setUser(JSON.parse(email).email);
+}, [])
 return(
   <>
   <Nav/>
     <header className={styles.header}>
       <h1>DailySchool</h1>
-      <p>Welcome</p>
+      <p>Welcome {user}</p>
     </header>
     <main className={styles.Main}>
       {tools.map((tool, index) => {

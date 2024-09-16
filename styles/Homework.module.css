@@ -1,83 +1,255 @@
-.Slider{
-    position: relative;
-    top:0px;
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    background-color: var(--secondary-background);
-    padding: 10px;
-    font-family: quicksand, verdana;
-    font-size: 1.6rem;
-    align-items: center;
+.Slider {
+  position: relative;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--secondary-background);
+  padding: 10px;
+  font-family: Quicksand, Verdana;
+  font-size: 1.6rem;
+  align-items: center;
+  box-sizing: border-box; /* Added for better box model handling */
 }
 
-.Slider button{
-    border: none;
-    padding: 12px 12px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+.Slider button {
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 60px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
 }
-.Slider button:last-child{
-    position: absolute;
-    right: 8%;
+
+.Slider button:last-child {
+  position: absolute;
+  right: 8%;
 }
-.Slider .setCurrent{
-    position: absolute;
-    color: rgb(32, 32, 248);
-    left: 57%;
+
+.Slider .setCurrent {
+  position: absolute;
+  color: rgb(32, 32, 248);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 1.2rem;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.homeworkItem {
+  border: 1px solid;
+  padding: 10px;
+  box-sizing: border-box; /* Added for better box model handling */
+  flex: 1; /* Allow the item to stretch */
+}
+
+.homeworkItem label {
+  font-family: Quicksand, Poppins;
+  font-size: 2rem;
+}
+
+.homeworkItem span {
+  font-family: Poppins, Verdana;
+}
+
+.homework {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  flex-grow: 1;
+  background-color: #fff;
+  min-height: 80.55vh;
+  height: calc(100vh - 80px); /* Ensure it stretches based on viewport height minus the header */
+  overflow-y: auto;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.homeworkItem input[type="checkbox"] {
+  position: absolute;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  &:checked {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--background);
+    background-image: url("/checkmark.png");
+    background-size: cover;
+  }
+}
+
+.Homework {
+  border-bottom: 2px solid;
+  padding: 6px;
+  display: inline-block;
+  width: 100%;
+  max-width: 100%;
+  font-size: 1.2rem;
+  background-color: var(--secondary-background);
+  margin: 2px 0;
+  color: #fff;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 1024px) {
+  .Slider {
+    font-size: 1.4rem;
+  }
+
+  .Slider button {
+    width: 60px; /* Fixed size */
+    height: 40px; /* Fixed size */
+    margin-bottom: 5px;
+  }
+
+  .homeworkItem {
+    padding: 8px;
+  }
+
+  .homeworkItem label {
+    font-size: 1.8rem;
+  }
+
+  .homeworkItem span {
+    font-size: 1.1rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Slider {
     font-size: 1.2rem;
-    cursor: pointer;
-    &:hover{
-        text-decoration: underline;
-    }
-}
-.homeworkItem{
-    border: 1px solid;
-    padding: 10px;
-}
+  }
 
-.homeworkItem label{
-    font-family: quicksand, poppins;
-    font-size: 2rem;
-}
-.homeworkItem span{
-    font-family: poppins, verdana;
-}
-.homework{
-    position: relative;
-    background-color: #fff;
-    max-height: 80%;
-    overflow-y: auto;
-    width: 100%;
-}
+  .Slider button {
+    width: 60px; /* Fixed size */
+    height: 40px; /* Fixed size */
+    margin-bottom: 5px;
+  }
 
-.homeworkItem input[type='checkbox'] {
-    position: absolute;
-    right: 100px;
-    width: 20px;
-    height: 20px;
-    &:checked{
-        -webkit-appearance: none;
-        -moz-appearance: none; 
-        appearance: none;
-        background-color: var(--background);
-        background-image: url('/checkmark.png');
-        background-size: cover;
-    }
-}
-
-
-.Homework{
-    border-bottom: 2px solid;
+  .homeworkItem {
     padding: 6px;
-    display: inline-block;
-    width: 87%;
-    font-size: 1.2rem;
-    background-color: var(--secondary-background);
-    margin: 2px;
-    color: #fff;
-    border-radius: 10px;
+  }
+
+  .homeworkItem label {
+    font-size: 1.6rem;
+  }
+
+  .homeworkItem span {
+    font-size: 1rem;
+  }
+
+  .homework {
+    padding: 5px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .Slider {
+    font-size: 1rem;
+    padding: 8px; /* Adjusted padding for smaller screens */
+  }
+
+  .Slider button {
+    width: 60px; /* Fixed size */
+    height: 40px; /* Fixed size */
+    margin-bottom: 4px; /* Adjusted margin for smaller screens */
+  }
+
+  .homeworkItem {
+    padding: 4px;
+  }
+
+  .homeworkItem label {
+    font-size: 1.4rem;
+  }
+
+  .homeworkItem span {
+    font-size: 0.9rem;
+  }
+
+  .homework {
+    padding: 3px;
+  }
+}
+
+.AddHomework {
+  background-color: var(--secondary-background);
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  min-width: 80%;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.AddHomework > * {
+  max-width: 400px; /* Ensure all children have the same width */
+  min-width: 400px;
+  position: relative;
+}
+
+.AddHomework h2 {
+  font-family: 'Quicksand', 'Poppins', verdana;
+  font-size: 2rem;
+}
+
+.AddHomework input,
+.AddHomework textarea {
+  background: linear-gradient(135deg, #e3e3e3, rgb(209, 124, 12)); /* Corrected gradient syntax */
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 6px 10px;
+  margin: 20px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  font-family: 'Poppins', 'verdana', 'Quicksand';
+  resize: none;
+}
+
+.AddHomework input:focus,
+.AddHomework textarea:focus {
+  outline: none;
+}
+
+.AddHomework input::placeholder,
+.AddHomework textarea::placeholder {
+  color: #000;
+  font-family: 'Quicksand', 'Poppins';
+}
+
+.AddHomework input[type="submit"] {
+  background-color: #ccc;
+  cursor: pointer;
+  transition: transform var(--transition-time); /* Changed to transform for better scaling */
+}
+.AddHomework input[type="submit"]:active {
+  transform: scale(0.95);
+}
+
+.AddHomework .DatePickerWrapper {
+  width: 100%; /* Ensures the wrapper takes full width */
+}
+
+.AddHomework .DatePickerWrapper .react-datepicker-wrapper {
+  width: 100%; /* Ensure DatePicker's internal wrapper takes full width */
+}
+
+.AddHomework .DatePickerWrapper  {
+  width: 100%;
+  border: none;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #e3e3e3, rgb(209, 124, 12));
 }

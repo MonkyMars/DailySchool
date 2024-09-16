@@ -12,7 +12,6 @@ const getDayName = (dayNumber) => {
   return days[dayNumber];
 };
 
-// Main component
 const Homework = () => {
   const Week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
@@ -62,27 +61,31 @@ const Homework = () => {
       ...homework,
       deadline: `${Week[currentDay - 1].toLowerCase()}%${selectedWeek}%${currentYear}`
     });
-    setHomeworkAddVisible(false);
   };
 
   const createHomework = async () => {
-    try {
-      const user = localStorage.getItem('user');
-      const response = await fetch('/api/addHomework', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'user': user,
-        },
-        body: JSON.stringify(homework),
-      });
-      if (!response.ok) {
-        console.error('Failed to add homework');
+    if(homework.title && homework.description) {
+      try {
+        const user = localStorage.getItem('user');
+        const response = await fetch('/api/addHomework', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'user': user,
+          },
+          body: JSON.stringify(homework),
+        });
+        if (!response.ok) {
+          console.error('Failed to add homework');
+        }
+        console.log('Homework added successfully');
+        fetchHomework(); // Refresh homework list
+        setHomeworkAddVisible(false)
+      } catch (error) {
+        console.error(error);
       }
-      console.log('Homework added successfully');
-      fetchHomework(); // Refresh homework list
-    } catch (error) {
-      console.error(error);
+    } else {
+      window.alert('Please fill in all fields')
     }
   };
 
@@ -216,7 +219,8 @@ const Homework = () => {
       </main>
       {homeworkAddVisible && (
         <div>
-          <form onSubmit={handleSubmitHomework}>
+          <form onSubmit={handleSubmitHomework} className={styles.AddHomework}>
+            <h2>Add Homework</h2>
             <input
               type="text"
               placeholder="Title"
@@ -228,6 +232,7 @@ const Homework = () => {
               value={homework.description}
               onChange={(e) => setHomework({ ...homework, description: e.target.value })}
             />
+            <div className={styles.DatePickerWrapper}>
             <DatePicker
               selected={getInitialDate()}
               onChange={handleDateChange}
@@ -236,9 +241,10 @@ const Homework = () => {
               filterDate={isWeekday}
               dateFormat="yyyy-MM-dd"
             />
+            </div>
             <input type="submit" value="Submit" />
           </form>
-          <button onClick={() => setHomeworkAddVisible(false)}>Cancel</button>
+          <button>Cancel</button>
         </div>
       )}
     </>
