@@ -74,11 +74,36 @@ const Notes = () => {
     const data = await response.json();
     const arrayNotes = data.message.rows;
     arrayNotes.map((arrayNote) => {
-      setExistingNotes([{ title: arrayNote.title, description: arrayNote.description, date: arrayNote.date, time: arrayNote.time }]);
+      setExistingNotes([{ title: arrayNote.title, description: arrayNote.description, date: arrayNote.date, time: arrayNote.time, id: arrayNote.id }]);
     })
-    console.log(existingNotes)
-    
   }
+
+  const handleDelete = async (id) => {
+    const section = 0; 
+    try {
+      console.log(id)
+        const response = await fetch('/api/deleteMixed', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ section, id })
+        });
+        setExistingNotes(prevExistingNotes => 
+          prevExistingNotes.filter(note => note.id !== id)
+        );        
+        if (response.ok) {
+            console.log('Deleted successfully');
+        } else {
+            const errorData = await response.json();
+            console.error('Failed to delete:', errorData.error || 'Unknown error');
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+    } 
+};
+
+  
   return (
     <>
       <Nav />
@@ -105,6 +130,8 @@ const Notes = () => {
               description={existingNote.description}
               date={existingNote.date}
               time={existingNote.time}
+              id={existingNote.id}
+              handleDelete={handleDelete}
             />
           ))}
         </div>
@@ -113,10 +140,11 @@ const Notes = () => {
   );
 };
 
-const Note = ({ title, description, time, date }) => (
+const Note = ({ title, description, time, date, id, handleDelete }) => (
   <div className={styles.Note}>
     <header>
       <h2>{title}</h2>
+      <Image src={'/options.png'} alt='options' width={40} height={40} onClick={() => handleDelete(id)}/>
     </header>
     <main>
       <p>{description}</p>

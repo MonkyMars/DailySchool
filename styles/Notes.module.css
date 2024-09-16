@@ -59,9 +59,15 @@
     position: relative;
     white-space: nowrap; 
     overflow: hidden; 
-    text-overflow: ellipsis; 
+    text-overflow: ellipsis;
+    max-width: 90%;
 }
-
+.Note header img{
+    position: absolute;
+    right: 15px;
+    top: 50px;
+    cursor: pointer;
+}
 .EditNote header input{
     border: none;
     border-bottom: 2px solid;
