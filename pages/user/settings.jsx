@@ -14,7 +14,8 @@ const Settings = () => {
     useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            setUser(JSON.parse(storedUser));
+            const userData = JSON.parse(storedUser);
+            setUser(userData);
         }
     }, []);
 
@@ -24,26 +25,27 @@ const Settings = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await fetch('/api/updateUser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
-            });
-
-            if (response.ok) {
-                alert('Settings updated successfully');
-            } else {
-                alert('Failed to update settings');
-            }
-        } catch (err) {
-            console.error('Error updating settings:', err);
-            alert('An error occurred while updating settings');
-        }
-    };
+      e.preventDefault();
+      try {
+          const response = await fetch('/api/updateUser', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(user),
+          });
+  
+          if (response.ok) {
+              alert('Settings updated successfully');
+          } else {
+              alert('Failed to update settings');
+          }
+      } catch (err) {
+          console.error('Error updating settings:', err);
+          alert('An error occurred while updating settings');
+      }
+  };
+  
 
     const logout = () => {
         localStorage.clear();
