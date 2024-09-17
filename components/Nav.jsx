@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/components/Nav.module.css';
 import Link from 'next/link';
 
-export default function Nav({page}) {
+export default function Nav() {
   return (
     <>
     <NavDesktop/>
@@ -11,6 +11,12 @@ export default function Nav({page}) {
 }
 
 const NavDesktop = () => {
+  const [user, setUser] = useState();
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setUser(user && JSON.parse(user))
+  }, [])
+  
   const pages = [
     {title: 'planner', href: '/school/planner'},
     {title: 'homework', href: '/school/homework'},
@@ -26,6 +32,7 @@ const NavDesktop = () => {
         <button className={styles.button} key={index} onClick={() => window.location.href = page.href}>{page.title}</button>
       ))}
       </div>
+      {!user && <button className={styles.button} onClick={() => window.location.href = '/user/login'}>Log in</button>}
     </nav>
   );
 }
