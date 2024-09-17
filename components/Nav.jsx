@@ -3,14 +3,6 @@ import styles from '../styles/components/Nav.module.css';
 import Link from 'next/link';
 
 export default function Nav({page}) {
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-  }, []);
-
   return (
     <>
     <NavDesktop/>
@@ -23,7 +15,7 @@ const NavDesktop = () => {
     {title: 'planner', href: '/school/planner'},
     {title: 'homework', href: '/school/homework'},
     {title: 'notes', href: '/school/notes'},
-    {title: 'setings', href: '/user/settings'}
+    {title: 'settings', href: '/user/settings'}
   ];
   
   return (
