@@ -9,24 +9,30 @@
     display: flex;
     align-items: center;
     padding: 0 20px;
-    justify-content: space-between;
+    justify-content: space-between; /* Ensure this is applied correctly */
     box-sizing: border-box;
 }
 
 .Nav h1 {
     font-size: 2.5em;
+    position: relative;
 }
-.Nav a{
+
+.Nav a {
     color: #1e1d1d;
     text-decoration: none;
-    &:hover{
-        text-decoration: underline;
-    }
+    position: relative;
 }
+
+.Nav a:hover {
+    text-decoration: underline;
+}
+
 .Nav div {
-    margin-right: 5vw;
     flex: 1;
     box-sizing: border-box;
+    margin: 0;
+    position: relative;
 }
 
 .button {
@@ -41,7 +47,9 @@
     cursor: pointer;
     transition: background-color var(--transition-time) ease, transform var(--transition-time) ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    position: relative;
 }
 
 .button:hover {
@@ -63,7 +71,7 @@
         margin: 0;
         flex: 1;
         flex-wrap: nowrap;
-        justify-content: center;
+        justify-content: center; /* Ensure this is properly applied */
     }
 
     .button {
@@ -71,7 +79,7 @@
     }
 
     .Nav {
-        justify-content: center;
+        justify-content: center; /* This will override the space-between */
         align-items: center;
         padding: 0 10px;
     }
