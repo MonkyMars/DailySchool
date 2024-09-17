@@ -4,37 +4,22 @@ import { sql } from "@vercel/postgres";
 export default async function updateUser(req, res) {
   if (req.method === "POST") {
     try {
-      // Extract data from request
       const { email, password, school, grade, id } = req.body;
 
       if (!email || !school || !grade || !id) {
         return res.status(400).json({ error: "Email, school, grade, and user id are required" });
       }
 
-      // Initialize query parts
-      const setQueryParts = [
-        sql`email = ${email}`,
-        sql`school = ${school}`,
-        sql`grade = ${grade}`
-      ];
-
-      // Update password only if provided
-      if (password) {
-        const saltRounds = 10;
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        setQueryParts.push(sql`password = ${hashedPassword}`);
-      }
-
-      // Construct the SQL query
-      const query = sql`
+      const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
+      const query = `
         UPDATE users
-        SET ${sql.join(setQueryParts, ", ")}
-        WHERE id = ${id}
+        SET email = $1, school = $2, grade = $3, password = COALESCE($4, password)
+        WHERE id = $5
+        RETURNING *
       `;
+      const result = await sql.query(query, [email, school, grade, hashedPassword, id]);
 
-      const result = sql.query(query);
-
-      if (result.rowCount > 0) {
+      if (result.rows.length > 0) {
         res.status(200).json({ message: "User updated successfully" });
       } else {
         res.status(404).json({ error: "User not found" });
