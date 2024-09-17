@@ -18,26 +18,25 @@ const Settings = () => {
       setUser(userData);
     }
   }, []);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
+    setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const { email, password, school, grade, id } = user;
+      console.log("Sending data to server:", { email, password, school, grade, id });
       const response = await fetch("/api/updateUser", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify({ email, password, school, grade, id }),
       });
-
-      if (response.ok) {
-        alert("Settings updated successfully");
-      } else {
+  
+      if (!response.ok) {
         alert("Failed to update settings");
       }
     } catch (err) {
@@ -50,6 +49,7 @@ const Settings = () => {
     localStorage.clear();
     window.location.href = "/user/login";
   };
+  
   return (
     <>
       <Nav />
