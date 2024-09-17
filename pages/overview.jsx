@@ -12,7 +12,7 @@ const tools = [
 ]
 useEffect(() => {
   const email = localStorage.getItem('user');
-  setUser(JSON.parse(email).email);
+  setUser(email && JSON.parse(email).email);
 }, [])
 return(
   <>
