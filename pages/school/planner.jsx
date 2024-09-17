@@ -198,6 +198,7 @@ export default function Planner() {
                                 {existingPlanner.time.slice(0, 5)}
                               </label>
                               <p>{existingPlanner.description}</p>
+                              <Image src='/options.png' alt='options' width={35} height={35}/>
                             </div>
                           )}
                         </React.Fragment>
