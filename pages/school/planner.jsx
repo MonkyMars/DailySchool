@@ -2,6 +2,7 @@ import styles from "/styles/Planner.module.css";
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import { getWeek } from "/components/components.jsx";
+import Image from 'next/image'
 
 export default function Planner() {
   const [currentMonth] = useState(new Date().getMonth());
