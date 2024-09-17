@@ -21,13 +21,17 @@ export default async function updateHomework(req, res) {
       `;
 
       if (result.rowCount === 0) {
-        return res.status(404).json({ error: "Homework not found or not authorized to update" });
+        return res
+          .status(404)
+          .json({ error: "Homework not found or not authorized to update" });
       }
 
       res.status(200).json({ message: "Homework updated successfully" });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "An error occurred while updating homework" });
+      res
+        .status(500)
+        .json({ error: "An error occurred while updating homework" });
     }
   } else {
     res.status(405).json({ error: "Method not allowed" });

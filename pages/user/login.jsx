@@ -68,14 +68,15 @@ export default function Login() {
       setError("School and Grade are required for sign up");
       return false;
     }
-    if (formType === "signup" && !schools.find((school) => school.name === formData.school)) {
-      setError('School not found');
-      console.log(schools)
+    if (
+      formType === "signup" &&
+      !schools.find((school) => school.name === formData.school)
+    ) {
+      setError("School not found");
       return false;
     }
     return true;
   };
-  
 
   const submitSignUp = async (e) => {
     e.preventDefault();
@@ -93,7 +94,7 @@ export default function Login() {
         const data = await response.json();
         localStorage.setItem("user", JSON.stringify(data.user));
         window.location.href = "/overview";
-      } else if(response.status === 409) {
+      } else if (response.status === 409) {
         setError("A user with that email already exists");
       } else {
         setError("Failed to sign up. Please try again.");

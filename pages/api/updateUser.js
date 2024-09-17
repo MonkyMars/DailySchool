@@ -32,9 +32,7 @@ export default async function updateUser(req, res) {
         WHERE id = ${id}
       `;
 
-      console.log("Executing query:", query.text, query.values); // For debugging
-
-      const result = await sql.query(query);
+      const result = sql.query(query);
 
       if (result.rowCount > 0) {
         res.status(200).json({ message: "User updated successfully" });

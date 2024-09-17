@@ -187,7 +187,12 @@
   .plannerView p {
     max-width: 90%;
   }
-  
+  .plannerView img{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+  }
   @media screen and (max-width: 1024px) {
     .MonthSlider {
       min-width: 100vw;
@@ -283,3 +288,33 @@
     }
   }
   
+
+.contextMenu{
+  position: fixed;
+  width: 100px;
+  height: 150px;
+  background-color: #fff;
+  outline: 2px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.contextMenu label{
+  border-top: 2px solid #ccc;
+  width: 95%;
+  position: relative;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', 'Quicksand', verdana;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.contextMenu label:first-child{
+  border-top: none;
+}

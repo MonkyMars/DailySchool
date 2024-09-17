@@ -1,128 +1,162 @@
-.Topbar{
-    position: relative;
-    top: 10px;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 10px;
-    font-family: quicksand, verdana;
-    font-size: 1.6rem;
-    align-items: center;
+.Topbar {
+  position: relative;
+  top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  font-family: quicksand, verdana;
+  font-size: 1.6rem;
+  align-items: center;
 }
 
-.Topbar input[type='text'] {
-    padding: 6px 8px;
-    border: none;
-    border-radius: 5px;
-    font-family: Quicksand, verdana, poppins;
-    font-size: 1rem;
-    margin-right: 10px;
-    &:focus{
-        outline: 2px solid var(--background)
-    }
+.Topbar input[type="text"] {
+  padding: 6px 8px;
+  border: none;
+  border-radius: 5px;
+  font-family: Quicksand, verdana, poppins;
+  font-size: 1rem;
+  margin-right: 10px;
+  &:focus {
+    outline: 2px solid var(--background);
+  }
 }
 
 .Topbar button {
-    padding: 6px 8px;
-    border: none;
-    border-radius: 5px;
-    font-family: Quicksand, verdana, poppins;
-    font-size: 1rem;
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-height: 32px;
-    &:focus{
-        background-color: var(--background);
-    }
+  padding: 6px 8px;
+  border: none;
+  border-radius: 5px;
+  font-family: Quicksand, verdana, poppins;
+  font-size: 1rem;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 32px;
+  &:focus {
+    background-color: var(--background);
+  }
 }
 
-.Note, .EditNote {
-    background-color: #fff;
-    width: 400px;
-    height: 400px;
-    margin: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 10px;
-    font-family: quicksand, poppins, verdana;
-    position: relative;
-    overflow: hidden; 
+.Note,
+.EditNote {
+  background-color: #fff;
+  width: 400px;
+  height: 400px;
+  margin: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font-family: quicksand, poppins, verdana;
+  position: relative;
+  overflow: hidden;
 }
 
-.Note header h2, .EditNote header input {
-    text-align: left;
+.Note header h2,
+.EditNote header input {
+  text-align: left;
+  border-bottom: 2px solid;
+  font-family: quicksand, poppins, verdana;
+  font-size: 2rem;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90%;
+}
+.Note header img {
+  position: absolute;
+  right: 15px;
+  top: 50px;
+  cursor: pointer;
+}
+.EditNote header input {
+  border: none;
+  border-bottom: 2px solid;
+  width: 90%;
+  &:focus {
     border-bottom: 2px solid;
-    font-family: quicksand, poppins, verdana;
-    font-size: 2rem;
-    position: relative;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
-    max-width: 90%;
+    outline: none;
+  }
 }
-.Note header img{
-    position: absolute;
-    right: 15px;
-    top: 50px;
-    cursor: pointer;
+.Note main p,
+.EditNote main textarea {
+  font-size: 1.3rem;
+  max-width: 90%;
+  word-wrap: break-word;
+  overflow: hidden;
+  position: relative;
 }
-.EditNote header input{
-    border: none;
-    border-bottom: 2px solid;
-    width: 90%;
-    &:focus{
-        border-bottom: 2px solid;
-        outline: none;
-    }
+.EditNote main textarea {
+  resize: none;
+  border: none;
+  width: 90%;
+  min-height: 250px;
+  max-height: 250px;
+  field-sizing: content;
+  border-bottom: 1px solid;
+  position: relative;
+  font-family: "Poppins", "Quicksand", verdana;
+  top: 20px;
+  &:focus {
+    outline: none;
+  }
 }
-.Note main p, .EditNote main textarea{
-    font-size: 1.3rem;
-    max-width: 90%;
-    word-wrap: break-word;
-    overflow: hidden; 
-    position: relative;
+.Note footer,
+.EditNote footer {
+  flex-direction: row-reverse;
+  bottom: 15px;
+  width: 85%;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.EditNote main textarea{
-    resize: none;
-    border: none;
-    width: 90%;
-    min-height: 250px;
-    max-height: 250px;
-    field-sizing: content;
-    border-bottom: 1px solid;
-    position: relative;
-    font-family: 'Poppins', 'Quicksand', verdana;
-    top: 20px;
-    &:focus{
-        outline: none;
-    }
+.EditNote footer button {
+  border: none;
+  background-color: hsl(0, 0%, 60%);
+  padding: 5px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: "Poppins", "Quicksand", verdana;
 }
-.Note footer, .EditNote footer{
-    flex-direction: row-reverse;
-    bottom: 15px;
-    width: 85%;
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    white-space: nowrap; 
-    overflow: hidden; 
-    text-overflow: ellipsis;
+.noteContainer {
+  height: 80vh;
+  width: 100vw;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  overflow-y: auto;
 }
-.EditNote footer button{
-    border: none;
-    background-color: hsl(0, 0%, 60%);
-    padding: 5px 14px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-family: 'Poppins', 'Quicksand', verdana;
+
+.contextMenu {
+  position: fixed;
+  width: 100px;
+  height: 150px;
+  background-color: #fff;
+  outline: 2px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
 }
-.noteContainer{
-    height: 80vh;
-    width: 100vw;
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    overflow-y: auto;
+
+.contextMenu label {
+  border-top: 2px solid #ccc;
+  width: 95%;
+  position: relative;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", "Quicksand", verdana;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.contextMenu label:first-child {
+  border-top: none;
 }

@@ -2,7 +2,7 @@ import styles from "/styles/Planner.module.css";
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import { getWeek } from "/components/components.jsx";
-import Image from 'next/image'
+import Image from "next/image";
 
 export default function Planner() {
   const [currentMonth] = useState(new Date().getMonth());
@@ -13,7 +13,6 @@ export default function Planner() {
   const [selectedDay] = useState(currentDay);
   const [sortType, setSortType] = useState("Month");
   const [plannerAddVisible, setPlannerAddVisible] = useState(false);
-  const [plannerViewVisible, setPlannerViewVisible] = useState(false);
   const [viewingPlannerIndex, setViewingPlannerIndex] = useState(null);
   const [planner, setPlanner] = useState({
     title: "",
@@ -22,6 +21,11 @@ export default function Planner() {
     time: new Date().toLocaleTimeString().slice(0, 5),
   });
   const [existingPlanners, setExistingPlanners] = useState([]);
+  const [contextMenu, setContextMenu] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
 
   // Fetch planners on component mount
   useEffect(() => {
@@ -86,6 +90,40 @@ export default function Planner() {
     }
   };
 
+  const handleDelete = async (id) => {
+    const section = 2;
+    try {
+      const response = await fetch("/api/deleteMixed", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ section, id }),
+      });
+      setExistingPlanners((prevExistingPlanner) =>
+        prevExistingPlanner.filter((planner) => planner.id !== id)
+      );
+      if (response.ok) {
+        console.log("Deleted successfully");
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to delete:", errorData.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  const handleContextMenu = (e, plannerId) => {
+    e.preventDefault(); // Prevent default context menu from appearing
+    setContextMenuPosition({ top: e.clientY, left: e.clientX });
+    setContextMenu(true);
+  };
+
+  const handleContextMenuClose = () => {
+    setContextMenu(false);
+  };
+
   // Functions for navigating months and weeks
   const decrementSelectedMonth = () => {
     setSelectedMonth((prevMonth) => (prevMonth === 0 ? 11 : prevMonth - 1));
@@ -125,7 +163,10 @@ export default function Planner() {
       <Nav />
       <main className={styles.Main}>
         <div className={styles.MonthSlider}>
-          <select onChange={(e) => setSortType(e.target.value)} value={sortType}>
+          <select
+            onChange={(e) => setSortType(e.target.value)}
+            value={sortType}
+          >
             <option value="Month">Month</option>
             <option value="Week">Week</option>
             <option value="Day">Day</option>
@@ -188,8 +229,12 @@ export default function Planner() {
                                   : plannerIndex
                               )
                             }
+                            onContextMenu={(e) =>
+                              handleContextMenu(e, existingPlanner.id)
+                            }
                           >
-                            {existingPlanner.title} - {existingPlanner.time.slice(0, 5)}
+                            {existingPlanner.title} -{" "}
+                            {existingPlanner.time.slice(0, 5)}
                           </span>
                           {viewingPlannerIndex === plannerIndex && (
                             <div className={styles.plannerView}>
@@ -199,6 +244,28 @@ export default function Planner() {
                                 {existingPlanner.time.slice(0, 5)}
                               </label>
                               <p>{existingPlanner.description}</p>
+                              <button onClick={() => handleContextMenuClose()}>
+                                Close
+                              </button>
+                            </div>
+                          )}
+                          {contextMenu && (
+                            <div
+                              className={styles.contextMenu}
+                              style={{
+                                top: `${contextMenuPosition.top}px`,
+                                left: `${contextMenuPosition.left}px`,
+                              }}
+                            >
+                              <label onClick={() => handleEdit()}>Edit</label>
+                              <label
+                                onClick={() => handleDelete(existingPlanner.id)}
+                              >
+                                Delete
+                              </label>
+                              <label onClick={() => handleContextMenuClose()}>
+                                Close
+                              </label>
                             </div>
                           )}
                         </React.Fragment>

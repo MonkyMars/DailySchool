@@ -16,7 +16,9 @@ export default async function handler(req, res) {
       // Check if user already exists
       const user = await sql`SELECT * FROM users WHERE email = ${email}`;
       if (user.rowCount) {
-        return res.status(409).json({ error: "User already exists with that email" });
+        return res
+          .status(409)
+          .json({ error: "User already exists with that email" });
       }
 
       // Hash password
@@ -25,11 +27,15 @@ export default async function handler(req, res) {
       // Insert new user
       const result = await sql`
         INSERT INTO users (email, password, school, grade, role)
-        VALUES (${email}, ${hashedPassword}, ${school}, ${grade}, ${role || "student"})
+        VALUES (${email}, ${hashedPassword}, ${school}, ${grade}, ${
+        role || "student"
+      })
         RETURNING *;
       `;
 
-      res.status(200).json({ message: "User added successfully", user: result.rows[0] });
+      res
+        .status(200)
+        .json({ message: "User added successfully", user: result.rows[0] });
     } catch (error) {
       console.error("Error adding user:", error);
       res.status(500).json({ error: "Internal server error" });

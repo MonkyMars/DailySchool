@@ -20,7 +20,12 @@ export default async function addHomework(req, res) {
       res.status(200).json({ message: "Homework added successfully" });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ message: "An error occurred while adding homework", error: err.message });
+      res
+        .status(500)
+        .json({
+          message: "An error occurred while adding homework",
+          error: err.message,
+        });
     }
   } else {
     res.status(405).json({ message: "Method not allowed" });
