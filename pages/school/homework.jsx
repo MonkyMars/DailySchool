@@ -262,7 +262,7 @@ const Homework = () => {
         <div className={styles.homework}>
           {Week.map((week, index) => (
             <div key={index} className={styles.homeworkItem}>
-              <label>{week}</label>
+              <label>{week} - {currentYear}</label>
               <div>
                 {currentHomeWork.map((homework, index) => {
                   const deadLine = homework.deadline;
@@ -274,7 +274,7 @@ const Homework = () => {
                       onContextMenu={(e) => handleContextMenu(e, homework.id)}
                     >
                       {week.toLowerCase() === homeworkDay &&
-                        selectedWeek == homeworkWeek && (
+                        selectedWeek == homeworkWeek && currentYear == homeworkYear && (
                           <>
                             <div className={styles.Homework}>
                               <span>
