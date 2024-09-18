@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import styles from "/styles/Overview.module.css";
 import Image from "next/image";
+import Head from "next/head";
 export default function Overview() {
   const [user, setUser] = useState();
 
@@ -34,6 +35,9 @@ export default function Overview() {
   }, []);
   return (
     <>
+    <Head>
+      <title>{'Schooltool | overview'}</title>
+    </Head>
       <Nav />
       <header className={styles.header}>
         <h1>DailySchool</h1>

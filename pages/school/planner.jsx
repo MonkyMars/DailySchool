@@ -2,7 +2,7 @@ import styles from "/styles/Planner.module.css";
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import { getWeek } from "/components/components.jsx";
-import Image from "next/image";
+import Head from "next/head";
 
 export default function Planner() {
   const [currentMonth] = useState(new Date().getMonth());
@@ -160,6 +160,9 @@ export default function Planner() {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | planner'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.MonthSlider}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import styles from "/styles/Login.module.css";
-
+import Head from "next/head";
 export default function Login() {
   const [formType, setFormType] = useState("login");
   const [error, setError] = useState("");
@@ -132,6 +132,9 @@ export default function Login() {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | login'}</title>
+    </Head>
       <Nav page="login" />
       <form
         className={styles.LoginForm}

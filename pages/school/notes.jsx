@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import styles from "/styles/Notes.module.css";
 import Image from "next/image";
-
+import Head from "next/head";
 const Notes = () => {
   const [note, setNote] = useState({
     title: "",
@@ -138,6 +138,9 @@ const Notes = () => {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | notes'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.Topbar}>

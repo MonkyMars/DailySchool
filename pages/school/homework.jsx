@@ -14,6 +14,7 @@ import {
   formatISO,
 } from "date-fns";
 import Image from "next/head";
+import Head from "next/head";
 // Helper function to get day name
 const getDayName = (dayNumber) => {
   const days = [
@@ -241,6 +242,9 @@ const Homework = () => {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | homework'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.Slider}>
