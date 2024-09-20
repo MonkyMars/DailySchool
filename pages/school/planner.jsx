@@ -168,6 +168,9 @@ export default function Planner() {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | planner'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.MonthSlider}>

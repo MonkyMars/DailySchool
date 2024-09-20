@@ -47,7 +47,7 @@ const Settings = () => {
     <>
       <Nav />
       <Head>
-        <title>DailySchool | Settings</title>
+        <title>{'Schooltool | settings'}</title>
       </Head>
       <main className={styles.Main}>
         <section className={styles.Section}>

@@ -3,7 +3,7 @@ import { useSession, signIn } from "next-auth/react";
 import Nav from "/components/Nav";
 import styles from "/styles/Notes.module.css";
 import Image from "next/image";
-
+import Head from "next/head";
 const Notes = () => {
   const { data: session, status } = useSession();
   const [note, setNote] = useState({
@@ -153,6 +153,9 @@ const Notes = () => {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | notes'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.Topbar}>

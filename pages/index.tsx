@@ -8,7 +8,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>SchoolTool | Home</title>
+        <title>SchoolTool</title>
       </Head>
       <nav className={styles.Nav}>
         <h2>SchoolTool</h2>

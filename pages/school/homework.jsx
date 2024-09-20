@@ -256,6 +256,9 @@ const Homework = () => {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | homework'}</title>
+    </Head>
       <Nav />
       <main className={styles.Main}>
         <div className={styles.Slider}>

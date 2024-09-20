@@ -160,6 +160,9 @@ export default function Login() {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | login'}</title>
+    </Head>
       <Nav page="login" />
       <form
         className={styles.LoginForm}

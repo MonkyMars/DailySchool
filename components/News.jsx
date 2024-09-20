@@ -24,7 +24,7 @@ const NewsArticle = ({ title, description, date, img, url }) => {
             <h2>{title}</h2>
             <p>{description}</p>
             <div>
-                <Image src={img} alt="News" width={1000} height={1000} onClick={() => window.location.href = url}/>
+                <Image priority src={img} alt="News" width={1000} height={1000} onClick={() => window.location.href = url}/>
             </div>
             <p>{date}</p>
         </section>
