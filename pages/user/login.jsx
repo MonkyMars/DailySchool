@@ -19,44 +19,6 @@ export default function Login() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const fetchSchools = async () => {
-      try {
-        const response = await fetch("/api/fetchSchools", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("HTTP error! Status: " + response.status);
-        }
-
-        const data = await response.json();
-        if (data.message) {
-          const processedSchools = data.message.map(school => {
-            let grades = [];
-
-            if (Array.isArray(school.grades)) {
-              grades = school.grades;
-            } else if (typeof school.grades === 'string') {
-              grades = school.grades.split(",").map(grade => grade.trim());
-            }
-
-            return {
-              ...school,
-              grades,
-            };
-          });
-
-          setSchools(processedSchools);
-        }
-      } catch (error) {
-        console.error("Error fetching schools:", error);
-        setError("Error fetching schools");
-      }
-    };
-
     fetchSchools();
   }, []);
 
@@ -158,6 +120,45 @@ export default function Login() {
       setIsSubmitting(false);
     }
   };
+
+  const fetchSchools = async () => {
+    try {
+      const response = await fetch("/api/fetchSchool", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) {
+        throw new Error("HTTP error! Status: " + response.status);
+      }
+
+      const data = await response.json();
+      if (data) {
+        const processedSchools = data.map(school => {
+          let grades = [];
+
+          if (Array.isArray(school.grades)) {
+            grades = school.grades;
+          } else if (typeof school.grades === 'string') {
+            grades = school.grades.split(",").map(grade => grade.trim());
+          }
+
+          return {
+            ...school,
+            grades,
+          };
+        });
+
+        setSchools(processedSchools);
+      }
+    } catch (error) {
+      console.error("Error fetching schools:", error);
+      setError("Error fetching schools");
+    }
+  };
+
+
 
   return (
     <>

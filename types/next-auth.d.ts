@@ -5,18 +5,23 @@ import { DefaultUser } from "next-auth";
 
 // Extend the default NextAuth session and token types
 declare module "next-auth" {
+  interface User {
+    id: number;
+    email: string;
+    role: string;
+  }
+
   interface Session {
     user: {
-      id: string; // or number, depending on your setup
+      id: number; 
       email: string;
       role: string;
-      // Add other custom fields as needed
     } & DefaultUser;
   }
 
   interface Token {
-    id: string; // or number, depending on your setup
+    id: number;
     role: string;
-    // Add other custom fields as needed
   }
 }
+

@@ -1,7 +1,6 @@
-// pages/api/auth/[...nextauth].ts
 import NextAuth from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, User } from "@prisma/client"; // Import User type
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 
@@ -17,21 +16,26 @@ export default NextAuth({
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("No credentials provided");
+        }
+
         const user = await prisma.user.findUnique({
-          where: { email: credentials?.email },
+          where: { email: credentials.email },
         });
 
         if (!user) {
           throw new Error("No user found with that email");
         }
 
-        const isValid = await bcrypt.compare(credentials?.password, user.password);
+        const isValid = await bcrypt.compare(credentials.password, user.password);
         
         if (!isValid) {
           throw new Error("Incorrect password");
         }
 
-        return { id: user.id, email: user.email, role: user.role };
+        // Return the full user object, but limit to the necessary fields
+        return { id: user.id, email: user.email, role: user.role }; // Adjust based on your User model
       },
     }),
   ],

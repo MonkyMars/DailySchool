@@ -22,9 +22,6 @@ const Notes = () => {
   });
 
   useEffect(() => {
-    console.log("Session Status:", status);
-    console.log("Session Data:", session);
-
     if (status === "loading") return; // Wait for NextAuth to determine status
     if (status === "unauthenticated") {
       signIn();

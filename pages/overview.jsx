@@ -17,9 +17,9 @@ export default function Overview() {
       if (!session) {
         router.push("/user/login");
       } else {
-        const { user } = session.user;
-        setUser(user);
-        console.log(session.user)
+        const { user } = session.user.email;
+        setUser();
+        console.log(user)
       }
     };
     checkAuth();
