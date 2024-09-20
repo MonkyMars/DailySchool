@@ -35,7 +35,7 @@ export default NextAuth({
         }
 
         // Return the full user object, but limit to the necessary fields
-        return { id: user.id, email: user.email, role: user.role }; // Adjust based on your User model
+        return { id: Number(user.id), email: user.email, role: user.role }; // Adjust based on your User model
       },
     }),
   ],
