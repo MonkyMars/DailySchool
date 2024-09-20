@@ -6,24 +6,22 @@ import styles from "/styles/Overview.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { getSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 
 export default function Overview() {
   const [user, setUser] = useState(null);
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const session = await getSession();
-      if (!session) {
-        router.push("/user/login");
-      } else {
-        const { user } = session.user.email;
-        setUser();
-        console.log(user)
-      }
-    };
-    checkAuth();
-  }, [router]);
+    if (status === "loading") return;
+
+    if (status === "unauthenticated") {
+      signIn(); // Redirect to sign-in if not authenticated
+    } else {
+      setUser(session.user.email)
+    }
+  }, [status]);
 
   const tools = [
     {
