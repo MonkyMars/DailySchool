@@ -1,35 +1,43 @@
-import bcrypt from "bcrypt";
-import { sql } from "@vercel/postgres";
+// pages/api/updateUser.ts
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcrypt';
+
+const prisma = new PrismaClient();
 
 export default async function updateUser(req, res) {
-  if (req.method === "POST") {
+  if (req.method === 'PUT') {
     try {
       const { email, password, school, grade, id } = req.body;
+      // Check for required fields
+      // if (!email || !school || !grade || !id) {
+      //   return res.status(400).json({
+      //     error: 'Email, school, grade, and user id are required',
+      //   });
+      // }
 
-      if (!email || !school || !grade || !id) {
-        return res.status(400).json({ error: "Email, school, grade, and user id are required" });
-      }
+      // Hash the password if provided
+      const hashedPassword = password
+        ? await bcrypt.hash(password, 10)
+        : undefined;
 
-      const hashedPassword = password ? await bcrypt.hash(password, 10) : null;
-      const query = `
-        UPDATE users
-        SET email = $1, school = $2, grade = $3, password = COALESCE($4, password)
-        WHERE id = $5
-        RETURNING *
-      `;
-      const result = await sql.query(query, [email, school, grade, hashedPassword, id]);
+      // Update user record
+      const result = await prisma.user.update({
+        where: { id },
+        data: {
+          email,
+          school,
+          grade,
+          password: hashedPassword ? hashedPassword : undefined,
+        },
+      });
 
-      if (result.rows.length > 0) {
-        res.status(200).json({ message: "User updated successfully" });
-      } else {
-        res.status(404).json({ error: "User not found" });
-      }
+      res.status(200).json({ message: 'User updated successfully', user: result });
     } catch (error) {
-      console.error("Error updating user:", error);
-      res.status(500).json({ error: "Internal server error" });
+      console.error('Error updating user:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   } else {
-    res.setHeader("Allow", ["POST"]);
+    res.setHeader('Allow', ['PUT']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
 }

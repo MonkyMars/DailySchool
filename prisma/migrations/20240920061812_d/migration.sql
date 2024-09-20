@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Notes" ALTER COLUMN "date" SET DATA TYPE TEXT;
+
+-- AlterTable
+ALTER TABLE "Planner" ALTER COLUMN "date" SET DATA TYPE TEXT;

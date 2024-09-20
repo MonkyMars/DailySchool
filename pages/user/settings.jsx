@@ -2,37 +2,31 @@ import styles from "/styles/Settings.module.css";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Nav from "/components/Nav";
+import { useSession, signIn } from "next-auth/react";
 
 const Settings = () => {
+  const { data: session, status } = useSession();
   const [user, setUser] = useState({
     email: "",
     password: "",
     school: "",
     grade: "",
   });
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const userData = JSON.parse(storedUser);
-      setUser(userData);
-    }
-  }, []);
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userId = session.user.id;
     try {
       const { email, password, school, grade, id } = user;
       const response = await fetch("/api/updateUser", {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, school, grade, id }),
+        body: JSON.stringify({ email, password, school, grade, userId}),
       });
 
       if (!response.ok) {
@@ -67,7 +61,7 @@ const Settings = () => {
               value={user.email}
               placeholder="Enter new email"
               onChange={handleInputChange}
-              required
+              disabled
             />
             <label htmlFor="password">Password</label>
             <input

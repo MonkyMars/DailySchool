@@ -1,16 +1,19 @@
+// pages/Planner.jsx
 import styles from "/styles/Planner.module.css";
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import { getWeek } from "/components/components.jsx";
 import Image from "next/image";
+import { useSession, signIn } from "next-auth/react"; // Import useSession and signIn
 
 export default function Planner() {
+  const { data: session, status } = useSession(); // Get session and status
   const [currentMonth] = useState(new Date().getMonth());
   const [selectedMonth, setSelectedMonth] = useState(currentMonth);
   const [currentWeek] = useState(getWeek(new Date()));
   const [selectedWeek, setSelectedWeek] = useState(currentWeek);
   const [currentDay] = useState(new Date().getDay());
-  const [selectedDay] = useState(currentDay);
+  const [selectedDay, setSelectedDay] = useState(currentDay);
   const [sortType, setSortType] = useState("Month");
   const [plannerAddVisible, setPlannerAddVisible] = useState(false);
   const [viewingPlannerIndex, setViewingPlannerIndex] = useState(null);
@@ -21,39 +24,44 @@ export default function Planner() {
     time: new Date().toLocaleTimeString().slice(0, 5),
   });
   const [existingPlanners, setExistingPlanners] = useState([]);
-  const [contextMenu, setContextMenu] = useState(false);
+  const [contextMenu, setContextMenu] = useState(null);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     top: 0,
     left: 0,
   });
 
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === "loading") return; // Wait until session status is determined
+    if (!session) signIn(); // Redirect to login if not authenticated
+  }, [session, status]);
+
   // Fetch planners on component mount
   useEffect(() => {
-    fetchPlanner();
-  }, []);
+    if (session) fetchPlanner();
+  }, [session]);
 
   // Fetch planner data from server
   const fetchPlanner = async () => {
     try {
-      const user = localStorage.getItem("user");
       const response = await fetch("/api/fetchPlanner", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          user: user,
+          "user": JSON.stringify(session.user)
         },
       });
       if (!response.ok) {
-        console.error("Failed to fetch planner");
+        throw new Error("Failed to fetch planner");
       }
       const data = await response.json();
-      const planners = data.message.rows.map((planner) => ({
+      const planners = data.plannerItems.map((planner) => ({
         ...planner,
         date: new Date(planner.date).toLocaleDateString("en-CA"),
       }));
       setExistingPlanners(planners);
     } catch (error) {
-      console.error(error);
+      console.error("Fetch error:", error);
     }
   };
 
@@ -73,25 +81,25 @@ export default function Planner() {
 
   const createPlanner = async () => {
     try {
-      const user = localStorage.getItem("user");
       const response = await fetch("/api/addPlanner", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          user: user,
+          'Authorization': JSON.stringify({ id: session.user.id }), // Use session user ID
         },
         body: JSON.stringify(planner),
       });
       if (!response.ok) {
-        window.alert("Failed to add planner");
+        throw new Error("Failed to add planner");
       }
     } catch (error) {
-      console.error(error);
+      console.error("Error creating planner:", error);
     }
   };
 
   const handleDelete = async (id) => {
     const section = 2;
+    console.log(id, section)
     try {
       const response = await fetch("/api/deleteMixed", {
         method: "DELETE",
@@ -100,15 +108,14 @@ export default function Planner() {
         },
         body: JSON.stringify({ section, id }),
       });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to delete");
+      }
       setExistingPlanners((prevExistingPlanner) =>
         prevExistingPlanner.filter((planner) => planner.id !== id)
       );
-      if (response.ok) {
-        console.log("Deleted successfully");
-      } else {
-        const errorData = await response.json();
-        console.error("Failed to delete:", errorData.error || "Unknown error");
-      }
+      console.log("Deleted successfully");
     } catch (error) {
       console.error("Fetch error:", error);
     }
@@ -117,11 +124,12 @@ export default function Planner() {
   const handleContextMenu = (e, plannerId) => {
     e.preventDefault(); // Prevent default context menu from appearing
     setContextMenuPosition({ top: e.clientY, left: e.clientX });
-    setContextMenu(true);
+    setContextMenu(plannerId);
+    console.log(plannerId)
   };
 
-  const handleContextMenuClose = () => {
-    setContextMenu(false);
+  const handleEdit = () => {
+    // Implement edit functionality
   };
 
   // Functions for navigating months and weeks
@@ -241,31 +249,9 @@ export default function Planner() {
                               <h2>{existingPlanner.title}</h2>
                               <label>
                                 {existingPlanner.date.slice(0, 10)} -{" "}
-                                {existingPlanner.time.slice(0, 5)}
+                                {existingPlanner.time}
                               </label>
-                              <p>{existingPlanner.description}</p>
-                              <button onClick={() => handleContextMenuClose()}>
-                                Close
-                              </button>
-                            </div>
-                          )}
-                          {contextMenu && (
-                            <div
-                              className={styles.contextMenu}
-                              style={{
-                                top: `${contextMenuPosition.top}px`,
-                                left: `${contextMenuPosition.left}px`,
-                              }}
-                            >
-                              <label onClick={() => handleEdit()}>Edit</label>
-                              <label
-                                onClick={() => handleDelete(existingPlanner.id)}
-                              >
-                                Delete
-                              </label>
-                              <label onClick={() => handleContextMenuClose()}>
-                                Close
-                              </label>
+                              <label>{existingPlanner.description}</label>
                             </div>
                           )}
                         </React.Fragment>
@@ -276,65 +262,165 @@ export default function Planner() {
               );
             })}
           {sortType === "Week" &&
-            Week.map((week, index) => (
-              <div key={index} className={styles.WeekDay}>
-                <label>{week}</label>
-              </div>
-            ))}
-          {sortType === "Day" && <label>{Week[currentDay]}</label>}
+            Week.map((dayName, index) => {
+              return (
+                <div key={index} className={styles.Day}>
+                  <label>{dayName}</label>
+                  {existingPlanners.map((existingPlanner, plannerIndex) => {
+                    const plannerDay = new Date(existingPlanner.date).getDay();
+                    return (
+                      plannerDay === index && (
+                        <React.Fragment key={plannerIndex}>
+                          <span
+                            className={styles.SpanPlan}
+                            onClick={() =>
+                              setViewingPlannerIndex(
+                                viewingPlannerIndex === plannerIndex
+                                  ? null
+                                  : plannerIndex
+                              )
+                            }
+                            onContextMenu={() =>
+                              handleContextMenu(existingPlanner.id)
+                            }
+                          >
+                            {existingPlanner.title} -{" "}
+                            {existingPlanner.time.slice(0, 5)}
+                          </span>
+                          {viewingPlannerIndex === plannerIndex && (
+                            <div className={styles.plannerView}>
+                              <h2>{existingPlanner.title}</h2>
+                              <label>
+                                {existingPlanner.date.slice(0, 10)} -{" "}
+                                {existingPlanner.time}
+                              </label>
+                              <label>{existingPlanner.description}</label>
+                            </div>
+                          )}
+                        </React.Fragment>
+                      )
+                    );
+                  })}
+                </div>
+              );
+            })}
+          {sortType === "Day" &&
+            Week.map((dayName, index) => {
+              return (
+                <div key={index} className={styles.Day}>
+                  <label>{dayName}</label>
+                  {existingPlanners.map((existingPlanner, plannerIndex) => {
+                    const plannerDay = new Date(existingPlanner.date).getDay();
+                    return (
+                      plannerDay === index && (
+                        <React.Fragment key={plannerIndex}>
+                          <span
+                            className={styles.SpanPlan}
+                            onClick={() =>
+                              setViewingPlannerIndex(
+                                viewingPlannerIndex === plannerIndex
+                                  ? null
+                                  : plannerIndex
+                              )
+                            }
+                            onContextMenu={(e) =>
+                              handleContextMenu(existingPlanner.id)
+                            }
+                          >
+                            {existingPlanner.title} -{" "}
+                            {existingPlanner.time.slice(0, 5)}
+                          </span>
+                          {viewingPlannerIndex === plannerIndex && (
+                            <div className={styles.plannerView}>
+                              <h2>{existingPlanner.title}</h2>
+                              <label>
+                                {existingPlanner.date.slice(0, 10)} -{" "}
+                                {existingPlanner.time}
+                              </label>
+                              <label>{existingPlanner.description}</label>
+                            </div>
+                          )}
+                        </React.Fragment>
+                      )
+                    );
+                  })}
+                </div>
+              );
+            })}
         </div>
-      </main>
-      {plannerAddVisible && (
-        <form className={styles.plannerAdd} onSubmit={handleSubmitPlanner}>
-          <h2>Add plan</h2>
-          <label>Title</label>
-          <input
-            type="text"
-            value={planner.title}
-            onChange={(e) =>
-              setPlanner((prevPlanner) => ({
-                ...prevPlanner,
-                title: e.target.value,
-              }))
-            }
-          />
-          <div>
-            <label>When</label>
-            <input
-              type="date"
-              value={planner.date}
-              onChange={(e) =>
-                setPlanner((prevPlanner) => ({
-                  ...prevPlanner,
-                  date: e.target.value,
-                }))
-              }
-            />
-            <input
-              type="time"
-              value={planner.time}
-              onChange={(e) =>
-                setPlanner((prevPlanner) => ({
-                  ...prevPlanner,
-                  time: e.target.value,
-                }))
-              }
-            />
+        {plannerAddVisible && (
+          <div className={styles.PlannerForm}>
+            <h2>Add New Planner Item</h2>
+            <form onSubmit={handleSubmitPlanner}>
+              <label>
+                Title:
+                <input
+                  type="text"
+                  value={planner.title}
+                  onChange={(e) =>
+                    setPlanner((prevPlanner) => ({
+                      ...prevPlanner,
+                      title: e.target.value,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Description:
+                <textarea
+                  value={planner.description}
+                  onChange={(e) =>
+                    setPlanner((prevPlanner) => ({
+                      ...prevPlanner,
+                      description: e.target.value,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Date:
+                <input
+                  type="date"
+                  value={planner.date}
+                  onChange={(e) =>
+                    setPlanner((prevPlanner) => ({
+                      ...prevPlanner,
+                      date: e.target.value,
+                    }))
+                  }
+                />
+              </label>
+              <label>
+                Time:
+                <input
+                  type="time"
+                  value={planner.time}
+                  onChange={(e) =>
+                    setPlanner((prevPlanner) => ({
+                      ...prevPlanner,
+                      time: e.target.value,
+                    }))
+                  }
+                />
+              </label>
+              <button type="submit">Add Planner Item</button>
+            </form>
           </div>
-          <label>Description</label>
-          <textarea
-            type="text"
-            value={planner.description}
-            onChange={(e) =>
-              setPlanner((prevPlanner) => ({
-                ...prevPlanner,
-                description: e.target.value,
-              }))
-            }
-          />
-          <button type="submit">Submit</button>
-        </form>
-      )}
+        )}
+        {contextMenu !== null && (
+          <div
+            className={styles.contextMenu}
+            style={{
+              top: `${contextMenuPosition.top}px`,
+              left: `${contextMenuPosition.left}px`,
+            }}
+          >
+            <label onClick={() => handleEdit(contextMenu)}>Edit</label>
+            <label onClick={() => handleDelete(contextMenu)}>Delete</label>
+            <label onClick={() => setContextMenu(null)}>Close</label>
+          </div>
+        )}
+      </main>
     </>
   );
 }

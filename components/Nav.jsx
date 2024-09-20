@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/components/Nav.module.css';
 import Link from 'next/link';
+import { useRouter } from "next/router";
+import { getSession } from "next-auth/react";
 
 export default function Nav() {
   return (
@@ -11,11 +13,25 @@ export default function Nav() {
 }
 
 const NavDesktop = () => {
-  const [user, setUser] = useState();
+  const router = useRouter();
+  const [session, setSession] = useState();
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    setUser(user && JSON.parse(user))
-  }, [])
+    const fetchSession = async () => {
+      try {
+        const response = await fetch("/api/auth/session");
+        if (response.ok) {
+          const data = await response.json();
+          setSession(data);
+        } else {
+          console.error("Failed to fetch session");
+        }
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    };
+
+    fetchSession();
+  }, []);
   
   const pages = [
     {title: 'planner', href: '/school/planner'},
@@ -32,7 +48,7 @@ const NavDesktop = () => {
         <button className={styles.button} key={index} onClick={() => window.location.href = page.href}>{page.title}</button>
       ))}
       </div>
-      {!user && <button className={styles.button} onClick={() => window.location.href = '/user/login'}>Log in</button>}
+      {!session && <button className={styles.button} onClick={() => window.location.href = '/user/login'}>Log in</button>}
     </nav>
   );
 }

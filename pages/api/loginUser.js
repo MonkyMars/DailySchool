@@ -1,16 +1,16 @@
 import bcrypt from "bcrypt";
-import { sql } from "@vercel/postgres";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 export default async function loginUser(req, res) {
   if (req.method === "POST") {
     try {
       const { email, password } = req.body;
 
-      const result = await sql`
-                SELECT * FROM users WHERE email = ${email}
-            `;
-
-      const user = result.rows[0];
+      const user = await prisma.user.findUnique({
+        where: { email: email },
+      });
 
       if (!user) {
         return res.status(401).json({ error: "Invalid email or password" });
@@ -19,6 +19,7 @@ export default async function loginUser(req, res) {
       const match = await bcrypt.compare(password, user.password);
 
       if (match) {
+        // Return user data for session
         res.status(200).json({ message: "Login successful", user });
       } else {
         res.status(401).json({ error: "Invalid email or password" });

@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+}
+
+model User {
+  id        Int     @id @default(autoincrement())
+  email     String  @unique
+  password  String
+  school    String
+  grade     String
+  role      String
+}
+
+model Homework {
+  id          Int     @id @default(autoincrement())  // Primary key with auto-increment
+  title       String
+  description String
+  deadline    String  
+  status      Int
+  user        Int
+}
+
+model Notes {
+  id          Int     @id @default(autoincrement())  // Primary key with auto-increment
+  title       String
+  description String
+  date        String  
+  time        String
+  user        Int 
+}
+
+model Planner {
+  id          Int  @id @default(autoincrement())
+  title       String
+  description String
+  date        String
+  time        String
+  user        Int
+}
+
+
+model School {
+  id          Int     @id @default(autoincrement())  // Primary key with auto-increment
+  name        String
+  grades      String[]
+}

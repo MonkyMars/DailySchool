@@ -1,12 +1,14 @@
+// pages/api/fetchSchools.js
 import { sql } from "@vercel/postgres";
 
 export default async function fetchSchools(req, res) {
   if (req.method === "GET") {
     try {
-      const schools = await sql`SELECT * FROM schools`;
+      const { rows: schools } = await sql`SELECT * FROM "School"`;
       res.status(200).json({ message: schools });
     } catch (err) {
-      console.error(err);
+      console.error("Error fetching schools:", err);
+      res.status(500).json({ error: "Failed to fetch schools" });
     }
   } else {
     res.setHeader("Allow", ["GET"]);

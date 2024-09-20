@@ -1,27 +1,37 @@
 import { useEffect, useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 import Nav from "/components/Nav";
 import styles from "/styles/Notes.module.css";
 import Image from "next/image";
 
 const Notes = () => {
+  const { data: session, status } = useSession();
   const [note, setNote] = useState({
     title: "",
     description: "",
-    date: new Date().toISOString().split("T")[0], // Format date as YYYY-MM-DD
+    date: new Date().toISOString().split("T")[0],
     time: new Date().toLocaleTimeString().slice(0, 5),
   });
   const [existingNotes, setExistingNotes] = useState([]);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState("");
-  const [contextMenu, setContextMenu] = useState(null); // Use object to manage context menu for specific note
+  const [contextMenu, setContextMenu] = useState(null);
   const [contextMenuPosition, setContextMenuPosition] = useState({
     top: 0,
     left: 0,
   });
 
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    console.log("Session Status:", status);
+    console.log("Session Data:", session);
+
+    if (status === "loading") return; // Wait for NextAuth to determine status
+    if (status === "unauthenticated") {
+      signIn();
+    } else if (status === "authenticated") {
+      fetchNotes();
+    }
+  }, [status]);
 
   const handleSubmitEditNote = async () => {
     if (note.title && note.description) {
@@ -55,18 +65,20 @@ const Notes = () => {
   const createNote = async () => {
     if (note.title && note.description) {
       try {
-        const user = localStorage.getItem("user");
         const response = await fetch("/api/addNote", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            user: user,
+            'user':  JSON.stringify(session.user),
           },
           body: JSON.stringify(note),
         });
         if (response.ok) {
           const data = await response.json();
-          localStorage.setItem("notes", JSON.stringify(data));
+          // setExistingNotes((prevNotes) => [
+          //   ...prevNotes,
+          //   data.result,
+          // ]);
         } else {
           setError("Failed to add note. Please try again.");
         }
@@ -78,28 +90,31 @@ const Notes = () => {
   };
 
   const fetchNotes = async () => {
-    const user = localStorage.getItem("user");
-    const response = await fetch("/api/fetchNotes", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        user: user,
-      },
-    });
-    if (!response.ok) {
-      throw new Error("HTTP error!");
+    try {
+      const response = await fetch("/api/fetchNotes", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          'user': JSON.stringify(session.user),
+        },
+      });
+      if (!response.ok) {
+        throw new Error("HTTP error!");
+      }
+      const data = await response.json();
+      const arrayNotes = data.message.rows;
+      setExistingNotes(
+        arrayNotes.map((arrayNote) => ({
+          title: arrayNote.title,
+          description: arrayNote.description,
+          date: arrayNote.date,
+          time: arrayNote.time,
+          id: arrayNote.id,
+        }))
+      );
+    } catch (error) {
+      console.error("Error fetching notes:", error);
     }
-    const data = await response.json();
-    const arrayNotes = data.message.rows;
-    setExistingNotes(
-      arrayNotes.map((arrayNote) => ({
-        title: arrayNote.title,
-        description: arrayNote.description,
-        date: arrayNote.date,
-        time: arrayNote.time,
-        id: arrayNote.id,
-      }))
-    );
   };
 
   const handleDelete = async (id) => {
@@ -163,9 +178,9 @@ const Notes = () => {
               handleSubmitEditNote={handleSubmitEditNote}
             />
           )}
-          {existingNotes.map((existingNote) => (
+          {existingNotes.map((existingNote, key) => (
             <Note
-              key={existingNote.id}
+              key={key}
               title={existingNote.title}
               description={existingNote.description}
               date={existingNote.date}

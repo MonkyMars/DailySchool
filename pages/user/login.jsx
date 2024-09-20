@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import Nav from "/components/Nav";
 import styles from "/styles/Login.module.css";
+import { signIn } from "next-auth/react";
 
 export default function Login() {
   const [formType, setFormType] = useState("login");
@@ -14,6 +15,7 @@ export default function Login() {
     grade: "",
     role: "student",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchSchools = async () => {
@@ -26,15 +28,31 @@ export default function Login() {
         });
 
         if (!response.ok) {
-          throw new Error("HTTP error!");
+          throw new Error("HTTP error! Status: " + response.status);
         }
 
         const data = await response.json();
-        if (data.message && data.message.rows) {
-          setSchools(data.message.rows);
+        if (data.message) {
+          const processedSchools = data.message.map(school => {
+            let grades = [];
+
+            if (Array.isArray(school.grades)) {
+              grades = school.grades;
+            } else if (typeof school.grades === 'string') {
+              grades = school.grades.split(",").map(grade => grade.trim());
+            }
+
+            return {
+              ...school,
+              grades,
+            };
+          });
+
+          setSchools(processedSchools);
         }
-      } catch (err) {
-        console.error("Error fetching schools:", err);
+      } catch (error) {
+        console.error("Error fetching schools:", error);
+        setError("Error fetching schools");
       }
     };
 
@@ -49,10 +67,7 @@ export default function Login() {
     if (name === "school") {
       const selectedSchool = schools.find((school) => school.name === value);
       if (selectedSchool) {
-        const schoolGrades = selectedSchool.grades
-          .split(",")
-          .map((grade) => grade.trim());
-        setFilteredGrades(schoolGrades);
+        setFilteredGrades(selectedSchool.grades);
       } else {
         setFilteredGrades([]);
       }
@@ -80,7 +95,9 @@ export default function Login() {
 
   const submitSignUp = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm() || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch("/api/addUser", {
@@ -90,10 +107,18 @@ export default function Login() {
         },
         body: JSON.stringify(formData),
       });
+
       if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("user", JSON.stringify(data.user));
-        window.location.href = "/overview";
+        const result = await signIn("credentials", {
+          redirect: false,
+          email: formData.email,
+          password: formData.password,
+        });
+        if (result.ok) {
+          window.location.href = "/overview";
+        } else {
+          setError(result.error || "Failed to sign in. Please try again.");
+        }
       } else if (response.status === 409) {
         setError("A user with that email already exists");
       } else {
@@ -102,31 +127,34 @@ export default function Login() {
     } catch (err) {
       console.error(err);
       setError("An error occurred during sign up.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const submitLogin = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateForm() || isSubmitting) return;
+
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/loginUser", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: formData.email,
+        password: formData.password,
       });
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("user", JSON.stringify(data.user));
+
+      if (result.ok) {
         window.location.href = "/overview";
       } else {
-        setError("Invalid credentials. Please try again.");
+        setError(result.error || "Invalid credentials. Please try again.");
       }
     } catch (err) {
       console.error(err);
       setError("An error occurred during login.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -135,7 +163,7 @@ export default function Login() {
       <Nav page="login" />
       <form
         className={styles.LoginForm}
-        onSubmit={formData && formType === "login" ? submitLogin : submitSignUp}
+        onSubmit={formType === "login" ? submitLogin : submitSignUp}
       >
         <h2>{formType === "login" ? "Log in" : "Sign up"}</h2>
         <div>
@@ -193,14 +221,16 @@ export default function Login() {
                 ))}
               </datalist>
               <datalist id="grades">
-                {filteredGrades.map((Grade, index) => (
-                  <option value={Grade} key={index} />
+                {filteredGrades.map((grade, index) => (
+                  <option value={grade} key={index} />
                 ))}
               </datalist>
             </>
           )}
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isSubmitting}>
+          {formType === "login" ? "Log In" : "Sign Up"}
+        </button>
         {formType === "login" && <a href="/forgotpassword">Forgot password?</a>}
         <a
           href={`#${formType}`}

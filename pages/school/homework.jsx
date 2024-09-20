@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from 'next/router'; // Import useRouter for redirection
+import { useSession, signIn } from "next-auth/react";
 import Nav from "/components/Nav";
 import { getWeek } from "../../components/components.jsx";
 import styles from "/styles/Homework.module.css";
@@ -13,7 +15,7 @@ import {
   addWeeks,
   formatISO,
 } from "date-fns";
-import Image from "next/head";
+
 // Helper function to get day name
 const getDayName = (dayNumber) => {
   const days = [
@@ -29,6 +31,9 @@ const getDayName = (dayNumber) => {
 };
 
 const Homework = () => {
+  const router = useRouter(); // Initialize router for redirection
+  const { data: session, status } = useSession(); // Use session for authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Manage authentication state
   const Week = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
 
   const today = new Date();
@@ -56,8 +61,15 @@ const Homework = () => {
   });
 
   useEffect(() => {
-    fetchHomework();
-  }, []);
+    if (status === "loading") return; // Waiting for session to load
+
+    if (status === "unauthenticated") {
+      signIn(); // Redirect to sign-in if not authenticated
+    } else {
+      setIsAuthenticated(true); // Set authentication state
+      fetchHomework(); // Fetch homework if authenticated
+    }
+  }, [status]);
 
   const getWeekRange = () => {
     const minDate = startOfWeek(today, { weekStartsOn: 1 }); // Week starts on Monday
@@ -88,13 +100,13 @@ const Homework = () => {
 
   const createHomework = async () => {
     if (homework.title && homework.description) {
+      console.log(homework.deadline)
       try {
-        const user = localStorage.getItem("user");
         const response = await fetch("/api/addHomework", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            user: user,
+            'user': JSON.stringify(session.user), 
           },
           body: JSON.stringify(homework),
         });
@@ -102,7 +114,7 @@ const Homework = () => {
           console.error("Failed to add homework");
         }
         console.log("Homework added successfully");
-        fetchHomework(); // Refresh homework list
+        fetchHomework();
         setHomeworkAddVisible(false);
       } catch (error) {
         console.error(error);
@@ -113,33 +125,35 @@ const Homework = () => {
   };
 
   const fetchHomework = async () => {
-    const user = localStorage.getItem("user");
-    const response = await fetch("/api/fetchHomework", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        user: user,
-      },
-    });
-    if (!response.ok) {
-      console.error("Failed to fetch homework");
-      return; // Exit early if the response is not ok
+    try {
+      const response = await fetch("/api/fetchHomework", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "user": JSON.stringify(session.user), 
+        },
+      });
+      if (!response.ok) {
+        console.error("Failed to fetch homework");
+        return;
+      }
+      const data = await response.json();
+      const sortedHomework = data.message.rows.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      ); 
+      setCurrentHomework(sortedHomework);
+    } catch (error) {
+      console.error("Error fetching homework:", error);
     }
-    const data = await response.json();
-    const sortedHomework = data.message.rows.sort((a, b) =>
-      a.title.localeCompare(b.title)
-    ); // Sort alphabetically by title
-    setCurrentHomework(sortedHomework); // Update state with sorted homework
   };
 
   const updateHomework = async (id, status) => {
-    const user = localStorage.getItem("user");
     try {
       const response = await fetch("/api/updateHomework", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          user: user,
+          "user": JSON.stringify(session.user), 
         },
         body: JSON.stringify({ id, status }),
       });
@@ -148,7 +162,7 @@ const Homework = () => {
       }
       fetchHomework(); // Refresh homework list after update
     } catch (error) {
-      console.error(error);
+      console.error("Error updating homework:", error);
     }
   };
 
@@ -159,6 +173,7 @@ const Homework = () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${session?.accessToken}`, // Add authorization header
         },
         body: JSON.stringify({ section, id }),
       });
@@ -338,7 +353,7 @@ const Homework = () => {
             </div>
             <input type="submit" value="Submit" />
           </form>
-          <button>Cancel</button>
+          <button onClick={() => setHomeworkAddVisible(false)}>Cancel</button>
         </div>
       )}
       {contextMenu !== null && (
