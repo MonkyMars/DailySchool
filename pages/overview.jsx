@@ -78,7 +78,7 @@ const ToolCard = ({ title, href, icon, description, color }) => {
       style={{ backgroundColor: color }}
     >
       <header>
-        <Image src={icon} alt={title} width={50} height={50} />
+        <Image priority src={icon} alt={title} width={50} height={50} />
         <h2>{title}</h2>
       </header>
       <main>
