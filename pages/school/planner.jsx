@@ -3,7 +3,7 @@ import styles from "/styles/Planner.module.css";
 import React, { useEffect, useState } from "react";
 import Nav from "/components/Nav";
 import { getWeek } from "/components/components.jsx";
-import Image from "next/image";
+import Head from "next/head";
 import { useSession, signIn } from "next-auth/react"; // Import useSession and signIn
 
 export default function Planner() {

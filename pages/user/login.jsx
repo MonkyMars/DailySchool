@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Nav from "/components/Nav";
 import styles from "/styles/Login.module.css";
 import { signIn } from "next-auth/react";
+import Head from 'next/head';
 
 export default function Login() {
   const [formType, setFormType] = useState("login");

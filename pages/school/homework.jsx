@@ -15,7 +15,7 @@ import {
   addWeeks,
   formatISO,
 } from "date-fns";
-
+import Head from 'next/head'
 // Helper function to get day name
 const getDayName = (dayNumber) => {
   const days = [
