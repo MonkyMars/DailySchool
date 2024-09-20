@@ -12,6 +12,15 @@ const Settings = () => {
     school: "",
     grade: "",
   });
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (status === "unauthenticated") {
+      signIn(); // Redirect to sign-in if not authenticated
+    } 
+  }, [status]);
+
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUser((prevUser) => ({ ...prevUser, [name]: value }));

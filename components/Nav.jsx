@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../styles/components/Nav.module.css';
 import Link from 'next/link';
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import Image from 'next/image';
 import { handleClientScriptLoad } from 'next/script';
 export default function Nav() {
@@ -15,26 +15,12 @@ export default function Nav() {
 
 const NavDesktop = () => {
   const router = useRouter();
-  const [session, setSession] = useState();
   const [loaded, setLoaded] = useState(false)
+  const { data: session, status } = useSession();
+  
   useEffect(() => {
-    const fetchSession = async () => {
-      try {
-        const response = await fetch("/api/auth/session");
-        if (response.ok) {
-          const data = await response.json();
-          setSession(data);
-        } else {
-          console.error("Failed to fetch session");
-        }
-      } catch (error) {
-        console.error("Error fetching session:", error);
-      }
-      setLoaded(true);
-    };
-
-    fetchSession();
-  }, []);
+    setLoaded(true)
+  }, [status]);
   
   const pages = [
     {title: 'planner', href: '/school/planner'},
