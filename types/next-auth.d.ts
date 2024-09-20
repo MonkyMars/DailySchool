@@ -10,6 +10,7 @@ declare module "next-auth" {
       id: string; // or number, depending on your setup
       email: string;
       role: string;
+      password: string; 
       // Add other custom fields as needed
     } & DefaultUser;
   }
