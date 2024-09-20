@@ -6,7 +6,8 @@
     "dev": "next dev --port 3000 --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start --port 3000 --hostname 0.0.0.0",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
@@ -19,6 +20,7 @@
     "jsonwebtoken": "^9.0.2",
     "next": "^14.2.9",
     "next-auth": "^4.24.7",
+    "prisma": "^5.19.1",
     "react": "^18.2.0",
     "react-datepicker": "^7.3.0",
     "react-dom": "18.2.0",
