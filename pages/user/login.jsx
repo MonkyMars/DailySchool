@@ -34,7 +34,7 @@ export default function Login() {
 
         const data = await response.json();
         if (data.message) {
-          const processedSchools = data.message.map(school => {
+          const processedSchools = data.message.rows.map(school => {
             let grades = [];
 
             if (Array.isArray(school.grades)) {
