@@ -1,86 +1,110 @@
 .Nav {
-    width: 100%;
-    background-color: var(--secondary-background);
-    height: 80px;
-    position: relative;
-    top: 0;
-    font-family: Quicksand, Poppins, Verdana;
-    color: var(--text-color);
-    display: flex;
-    align-items: center;
-    padding: 0 20px;
-    justify-content: space-between; /* Ensure this is applied correctly */
-    box-sizing: border-box;
+  width: 100%;
+  background-color: var(--secondary-background);
+  height: 80px;
+  position: relative;
+  top: 0;
+  font-family: Quicksand, Poppins, Verdana;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between; /* Ensure this is applied correctly */
+  box-sizing: border-box;
 }
 
 .Nav h1 {
-    font-size: 2.5em;
-    position: relative;
+  font-size: 2.5em;
+  position: relative;
 }
 
 .Nav a {
-    color: #1e1d1d;
-    text-decoration: none;
-    position: relative;
+  color: #1e1d1d;
+  text-decoration: none;
+  position: relative;
 }
 
 .Nav a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .Nav div {
-    flex: 1;
-    box-sizing: border-box;
-    margin: 0;
-    position: relative;
+  flex: 1;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
 }
 
-.button {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 300;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: background-color var(--transition-time) ease, transform var(--transition-time) ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-left: 20px;
-    margin-right: 20px;
-    position: relative;
+.button, .button1 {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 300;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--transition-time) ease,
+    transform var(--transition-time) ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  margin-left: 20px;
+  margin-right: 20px;
+  position: relative;
 }
 
-.button:hover {
-    background-color: var(--hover-color);
-    transform: translateY(-2px);
+.button:hover, .button1:hover {
+  background-color: var(--hover-color);
+  transform: translateY(-2px);
 }
 
-.button:active {
-    background-color: var(--active-color);
-    transform: translateY(0);
+.button:active, .button1:active {
+  background-color: var(--active-color);
+  transform: translateY(0);
 }
 
+.navPhone{
+  display: none;
+}
+.button1{
+  display: none;
+}
 @media screen and (max-width: 880px) {
-    .Nav h1 {
-        display: none;
-    }
+  .Nav h1 {
+    display: none;
+  }
 
-    .Nav div {
-        margin: 0;
-        flex: 1;
-        flex-wrap: nowrap;
-        justify-content: center; /* Ensure this is properly applied */
-    }
+  .Nav div {
+    margin: 0;
+    flex: 1;
+    flex-wrap: nowrap;
+    justify-content: center; /* Ensure this is properly applied */
+  }
 
-    .button {
-        margin: 2vw;
-    }
+  .button {
+    margin: 2vw;
+  }
 
-    .Nav {
-        justify-content: center; /* This will override the space-between */
-        align-items: center;
-        padding: 0 10px;
-    }
+  .Nav {
+    justify-content: center; /* This will override the space-between */
+    align-items: center;
+    padding: 0 10px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .Nav div{
+    overflow-x: auto;
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .button1{
+    display: flex;
+  }
+  .Nav .button:last-child{
+    display: none;
+  }
 }

@@ -1,5 +1,5 @@
 .Month {
-    min-width: 100%;
+    max-width: 100%;
     max-height: 80vh;
     position: relative;
     background-color: #fff;
@@ -37,7 +37,7 @@
   .MonthSlider {
     position: relative;
     top: 0px;
-    min-width: 105vw;
+    max-width: 100%;
     display: flex;
     justify-content: space-evenly;
     background-color: var(--secondary-background);
@@ -45,6 +45,7 @@
     font-family: Quicksand, Verdana, sans-serif;
     font-size: 1.6rem;
     align-items: center;
+    overflow-x: hidden;
   }
   
   .MonthSlider button,
@@ -195,7 +196,7 @@
   }
   @media screen and (max-width: 1024px) {
     .MonthSlider {
-      min-width: 100vw;
+      max-width: 100%;
       font-size: 1.4rem;
       flex-wrap: wrap;
       justify-content: space-between;

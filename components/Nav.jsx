@@ -4,16 +4,16 @@ import Link from 'next/link';
 import { useRouter } from "next/router";
 import { useSession, signIn } from "next-auth/react";
 import Image from 'next/image';
-import { handleClientScriptLoad } from 'next/script';
-export default function Nav() {
+
+export default function Nav({page}) {
   return (
     <>
-    <NavDesktop/>
+    <NavDesktop page={page}/>
     </>
   );
 }
 
-const NavDesktop = () => {
+const NavDesktop = ({page}) => {
   const router = useRouter();
   const [loaded, setLoaded] = useState(false)
   const { data: session, status } = useSession();
@@ -33,15 +33,24 @@ const NavDesktop = () => {
   }
 
   return (
+    <>
     <nav className={styles.Nav}>
-      <Link href='/overview'><h1>SchoolTool</h1></Link>
+      {page !== 'login' && (
+        <>
+        <Link href='/overview'><h1>SchoolTool</h1></Link>
       <div>
-      {pages.map((page, index) => (
-        <button className={styles.button} key={index} onClick={() => window.location.href = page.href}>{page.title}</button>
+      {pages.map((page, key) => (
+        <>
+        <button className={styles.button} key={key} onClick={() => window.location.href = page.href}>{page.title}</button>
+        </>
       ))}
+      {session && <button className={styles.button1} onClick={setLocationSettings}><Image src={'/settings.png'} width={20} height={20} alt='settings' onClick={setLocationSettings}/></button>}
       </div>
-      {!session && loaded && <button className={styles.button} onClick={() => window.location.href = '/user/login'}>Log in</button>}
-      {session && <button className={styles.button} onClick={handleClientScriptLoad}><Image src={'/settings.png'} width={25} height={25} alt='settings' onClick={setLocationSettings}/></button>}
+      {!session && loaded && page !== 'login' && <button className={styles.button} onClick={() => window.location.href = '/user/login'}>Log in</button>}
+      {session && <button className={styles.button} onClick={setLocationSettings}><Image src={'/settings.png'} width={25} height={25} alt='settings' onClick={setLocationSettings}/></button>}
+        </>
+      )}
     </nav>
+    </>
   );
 }

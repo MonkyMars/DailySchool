@@ -124,7 +124,7 @@
 }
 .noteContainer {
   height: 80vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;

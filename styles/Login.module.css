@@ -1,7 +1,7 @@
 .LoginForm {
     background-color: var(--secondary-background);
-    width: 90%;
-    max-width: 360px;
+    width: 360px;
+    max-width: 90%;
     padding: 20px;
     justify-content: center;
     align-items: center;
