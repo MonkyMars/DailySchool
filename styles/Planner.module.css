@@ -39,7 +39,7 @@
     top: 0px;
     max-width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-around;
     background-color: var(--secondary-background);
     padding: 10px;
     font-family: Quicksand, Verdana, sans-serif;
@@ -70,13 +70,11 @@
   }
   
   .MonthSlider select {
-    position: absolute;
-    left: 8%;
+    position: relative;
   }
   
   .MonthSlider button:last-child {
-    position: absolute;
-    right: 8%;
+    position: relative;
   }
   
   .Day .Week {

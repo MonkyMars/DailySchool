@@ -263,6 +263,8 @@ const Homework = () => {
       <Nav />
       <main className={styles.Main}>
         <div className={styles.Slider}>
+          <label placeholder></label>
+          <label placeholder></label>
           <button onClick={decrementSelectedWeek}>&larr;</button>
           <label>{selectedWeek}</label>
           {selectedWeek !== currentWeek && (
