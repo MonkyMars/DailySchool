@@ -2,7 +2,7 @@ import styles from "/styles/Settings.module.css";
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Nav from "/components/Nav";
-import { useSession, signIn } from "next-auth/react";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Settings = () => {
   const { data: session, status } = useSession();
@@ -16,7 +16,7 @@ const Settings = () => {
   useEffect(() => {
     if (status === "loading") return;
     if (status === "unauthenticated") {
-      signIn(); // Redirect to sign-in if not authenticated
+      signIn();
     } 
   }, [status]);
 
@@ -48,7 +48,7 @@ const Settings = () => {
   };
 
   const logout = () => {
-    window.location.href = "/user/login";
+    signOut();
   };
 
   return (
@@ -108,7 +108,7 @@ const Settings = () => {
           {user ? (
             <div
               style={{ backgroundColor: "rgb(255, 20, 20)" }}
-              onClick={logout}
+              onClick={signOut}
             >
               <h2>Log out</h2>
             </div>

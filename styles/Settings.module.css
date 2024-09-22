@@ -73,8 +73,6 @@
     cursor: pointer;
 }
 
-/* Breakpoints for Responsiveness */
-
 /* Tablet Size (1024px and below) */
 @media screen and (max-width: 1024px) {
     .Section form, .Section div {
