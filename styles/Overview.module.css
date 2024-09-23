@@ -49,5 +49,20 @@
 }
 
 .header p {
+    max-width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
     font-size: 2rem;
+}
+
+@media screen and (max-width: 500px) {
+    .header h1{
+        font-size: 2.5rem;
+    }
+    .header p{
+        font-size: 1rem;
+    }
+    .ToolCard main{
+        font-size: 0.8rem;
+    }
 }
