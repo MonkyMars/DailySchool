@@ -5,6 +5,7 @@ import styles from "../styles/Home.module.css";
 import NewsArticles from "../components/News.jsx";
 
 const Home: NextPage = () => {
+  
   const contentGoogle = process.env.NEXT_PUBLIC_GOOGLECONTENT;
   return (
     <>
