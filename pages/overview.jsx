@@ -5,7 +5,7 @@ import Nav from "/components/Nav";
 import styles from "/styles/Overview.module.css";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { getSession } from "next-auth/react";
+import Head from "next/head";
 import { useSession, signIn } from "next-auth/react";
 
 export default function Overview() {
@@ -49,9 +49,12 @@ export default function Overview() {
 
   return (
     <>
+    <Head>
+      <title>{'Schooltool | overview'}</title>
+    </Head>
       <Nav />
       <header className={styles.header}>
-        <h1>DailySchool</h1>
+        <h1>Schooltool</h1>
         <p>Welcome {user}</p>
       </header>
       <main className={styles.Main}>
