@@ -5,10 +5,12 @@ import styles from "../styles/Home.module.css";
 import NewsArticles from "../components/News.jsx";
 
 const Home: NextPage = () => {
+  const contentGoogle = process.env.NEXT_PUBLIC_GOOGLECONTENT;
   return (
     <>
       <Head>
         <title>SchoolTool</title>
+        <meta name="google-site-verification" content={contentGoogle} />
       </Head>
       <nav className={styles.Nav}>
         <h2>SchoolTool</h2>
