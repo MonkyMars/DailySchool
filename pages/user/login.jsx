@@ -17,7 +17,7 @@ export default function Login() {
     role: "student",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [gradess, setGradess] = useState([]);
   useEffect(() => {
     fetchSchools();
   }, []);
@@ -31,6 +31,7 @@ export default function Login() {
       const selectedSchool = schools.find((school) => school.name === value);
       if (selectedSchool) {
         setFilteredGrades(selectedSchool.grades);
+        console.log(selectedSchool, selectedSchool.grades)
       } else {
         setFilteredGrades([]);
       }
@@ -137,11 +138,12 @@ export default function Login() {
       if (data) {
         const processedSchools = data.map(school => {
           let grades = [];
-
           if (Array.isArray(school.grades)) {
             grades = school.grades;
+            setGradess(grades)
           } else if (typeof school.grades === 'string') {
             grades = school.grades.split(",").map(grade => grade.trim());
+            setGradess(grades);
           }
 
           return {
@@ -149,7 +151,6 @@ export default function Login() {
             grades,
           };
         });
-
         setSchools(processedSchools);
       }
     } catch (error) {
@@ -226,8 +227,8 @@ export default function Login() {
                 ))}
               </datalist>
               <datalist id="grades">
-                {filteredGrades.map((grade, index) => (
-                  <option value={grade} key={index} />
+                {gradess.map((name, index) => (
+                  <option value={name} key={index} />
                 ))}
               </datalist>
             </>
